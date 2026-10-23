@@ -1,0 +1,21 @@
+[project]
+name = "enterprise-intel"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "vijay-aid-007", email = "vijayjoka25@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "joblib>=1.6.0",
+    "pandas>=3.1.0",
+    "scikit-learn>=1.2",
+    "shap>=0.51.0",
+    "xgboost>=3.2.0",
+]
+
+[project.scripts]
+enterprise-intel = "enterprise_intel:main"
+
+
