@@ -101,8 +101,9 @@ def predict_customer(customer_id: str, top_k: int = 5) -> dict[str, Any]:
 
     bundle = _bundle()
     pipeline = bundle["pipeline"]
-    row = customers.loc[customer_id]
+    # row = customers.loc[customer_id]
     features = get_features(customers.loc[[customer_id]], engineer=bundle["engineer"])
+    row = features.loc[[customer_id]].iloc[0]
     matrix = pipeline.named_steps["prep"].transform(features)
     prob = float(pipeline.named_steps["model"].predict_proba(matrix)[0, 1])
 

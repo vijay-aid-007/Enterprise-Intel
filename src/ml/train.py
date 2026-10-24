@@ -120,7 +120,7 @@ def run_comparison(
 
 def main() -> None:
     """Compare models by CV, pick one, tune its threshold, save it, optionally test once."""
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("--final", action="store_true", help="score the test set once")
     args = parser.parse_args()
 

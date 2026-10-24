@@ -6,12 +6,20 @@ import json
 import numpy as np
 import pandas as pd
 import pytest
+import numpy as  np 
+from typing import Any
+from scipy import sparse
 
 from src import config
 from src.ml.preprocess import (
     build_preprocessor, clean_and_engineer, get_features, load_raw, prepare_data,
 )
 from src.ml.train import best_threshold
+
+
+def _dense(x: Any) -> np.ndarray:
+    """Transformer output as a dense float array (typed dense-or-sparse)."""
+    return x.toarray() if sparse.issparse(x) else np.asarray(x, dtype=float)
 
 
 def _toy_frame() -> pd.DataFrame:
@@ -46,12 +54,12 @@ def test_preprocessor_survives_unseen_category() -> None:
     x = get_features(clean_and_engineer(_toy_frame()))
     prep = build_preprocessor()
     fitted = prep.fit_transform(x)
-    assert fitted.shape[0] == 8 and not np.isnan(fitted).any()
+    assert fitted.shape[0] == 8 and not np.isnan(_dense(fitted)).any()
     unseen = x.copy()
     unseen["Contract"] = "Two year"  # never seen at fit time
     with pytest.warns(UserWarning, match="unknown categories"):
         out = prep.transform(unseen)
-    assert out.shape[1] == fitted.shape[1] and not np.isnan(out).any()
+    assert out.shape[1] == fitted.shape[1] and not np.isnan(_dense(out)).any()
 
 
 def test_best_threshold_separates_clean_data() -> None:
