@@ -43,3 +43,15 @@ def configure_logging(level: int = logging.INFO) -> None:
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
         datefmt="%H:%M:%S",
     )
+
+# --- Step 2: documents / chunking ---
+DOC_FILES: tuple[str, ...] = (
+    "facts_sheet.md",
+    "retention_policy.pdf",
+    "plans_pricing_guide.docx",
+    "service_terms.pdf",
+    "support_tickets.csv",
+)
+SYNTHETIC_DOCS: frozenset[str] = frozenset(DOC_FILES)  # all five are LLM-generated
+CHUNKS_JSONL: Path = DATA_PROCESSED / "chunks.jsonl"
+CHUNK_MAX_CHARS: int = 900  # ~200 tokens; MiniLM truncates at 256 tokens

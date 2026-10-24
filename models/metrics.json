@@ -1,0 +1,87 @@
+{
+  "seed": 42,
+  "n_train": 5634,
+  "n_test": 1409,
+  "train_churn_rate": 0.2654,
+  "scale_pos_weight": 2.7686,
+  "cv_models": {
+    "logreg|engineered=True": {
+      "model": "logreg",
+      "engineered": true,
+      "cv_pr_auc_mean": 0.6583,
+      "cv_pr_auc_std": 0.0219,
+      "cv_roc_auc_mean": 0.8455,
+      "oof_brier": 0.1654
+    },
+    "xgboost|engineered=True": {
+      "model": "xgboost",
+      "engineered": true,
+      "cv_pr_auc_mean": 0.6606,
+      "cv_pr_auc_std": 0.0226,
+      "cv_roc_auc_mean": 0.8449,
+      "oof_brier": 0.1599
+    },
+    "logreg|engineered=False": {
+      "model": "logreg",
+      "engineered": false,
+      "cv_pr_auc_mean": 0.66,
+      "cv_pr_auc_std": 0.0218,
+      "cv_roc_auc_mean": 0.846,
+      "oof_brier": 0.1653
+    },
+    "xgboost|engineered=False": {
+      "model": "xgboost",
+      "engineered": false,
+      "cv_pr_auc_mean": 0.6681,
+      "cv_pr_auc_std": 0.0241,
+      "cv_roc_auc_mean": 0.8474,
+      "oof_brier": 0.1599
+    }
+  },
+  "selected": {
+    "model": "xgboost",
+    "engineered": false,
+    "criterion": "mean 5-fold PR-AUC on train"
+  },
+  "threshold": {
+    "value": 0.5783,
+    "beta": 1.0,
+    "chosen_on": "out-of-fold predictions, train only"
+  },
+  "cv_oof_at_threshold": {
+    "threshold": 0.5783,
+    "pr_auc": 0.6648,
+    "roc_auc": 0.8468,
+    "precision": 0.5692,
+    "recall": 0.7211,
+    "f1": 0.6362,
+    "accuracy": 0.7812,
+    "brier": 0.1599,
+    "confusion_tn_fp_fn_tp": [
+      3323,
+      816,
+      417,
+      1078
+    ]
+  },
+  "test": {
+    "threshold": 0.5783,
+    "pr_auc": 0.663,
+    "roc_auc": 0.8446,
+    "precision": 0.5481,
+    "recall": 0.7166,
+    "f1": 0.6211,
+    "accuracy": 0.7679,
+    "brier": 0.1622,
+    "confusion_tn_fp_fn_tp": [
+      814,
+      221,
+      106,
+      268
+    ]
+  },
+  "notes": [
+    "Class weights inflate probabilities: prob is a risk score, not calibrated.",
+    "cv_oof_at_threshold is optimistic: the threshold was tuned on the same predictions."
+  ]
+}
