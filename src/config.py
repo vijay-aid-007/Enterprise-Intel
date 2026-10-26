@@ -66,3 +66,41 @@ RRF_K = 60                         # standard RRF constant
 CANDIDATES_PER_BACKEND = 20        # each backend contributes its top-N to fusion
 DENSE_MIN_SIM = 0.25               # UNTUNED placeholder: tune on dev gold questions (Step 9)
 BM25_MIN_SCORE = 0.0               # disabled until tuned
+
+
+# ---------------------------------------------------------------- LLM / generation (Step 4)
+from pathlib import Path
+
+ENV_FILE: Path = Path(__file__).resolve().parents[1] / ".env"
+LLM_TEMPERATURE: float = 0.0
+LLM_MAX_TOKENS: int = 1024
+LLM_TIMEOUT_S: float = 60.0
+GEN_K: int = 5
+GEN_DOC_TYPES: tuple[str, ...] = ("markdown", "pdf", "docx")  # excludes support tickets (csv)
+
+
+# ---------------------------------------------------------------- Report (Step 5)
+# Risk-tier lower bounds read by hand from the SYNTHETIC retention policy:
+# "Medium 0.35 to 0.59", "High 0.60 to 0.79", "Critical 0.80 and above".
+# The Low band (below 0.35) is my inference. tests/test_report_smoke.py checks these
+# numbers against chunks.jsonl so code and document cannot drift apart silently.
+TIER_BANDS: tuple[tuple[str, float], ...] = (
+    ("Low", 0.0),
+    ("Medium", 0.35),
+    ("High", 0.60),
+    ("Critical", 0.80),
+)
+REPORT_DIR: Path = DATA_PROCESSED / "reports"
+REPORT_K: int = 5
+REPORT_MAX_CHUNKS: int = 8
+REPORT_MAX_DRIVER_QUERIES: int = 2
+REPORT_MAX_RECOMMENDATIONS: int = 4
+
+# ---------------------------------------------------------------- Agent (Step 6)
+AGENT_MAX_STEPS: int = 5            # tool calls per question (rule 9)
+AGENT_TOOL_TIMEOUT_S: float = 60.0  # stops WAITING for a tool; a stuck thread cannot be killed
+AGENT_RESULT_MAX_CHARS: int = 6000  # cap on one tool result sent back to the model
+AGENT_MAX_ROWS: int = 20            # groups returned by analyze_data
+AGENT_MAX_FILTERS: int = 5
+AGENT_CALC_MAX_CHARS: int = 100
+AGENT_SEARCH_MAX_K: int = 8
