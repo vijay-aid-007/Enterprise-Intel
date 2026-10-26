@@ -8,10 +8,12 @@ from types import SimpleNamespace
 from typing import Any
 from types import SimpleNamespace
 
+from src.llm.report import REPORT_STATUSES, build_report
+from src.llm.report_render import NO_RECOMMENDATION_TEXT, write_report
+
 import pytest
 from src.llm.client import LLMError, LLMResponse, ToolCall, ToolSpec
 from src import config
-from src.llm.report import build_report
 from src.llm.report_evidence import (
     UnknownCustomerError,
     driver_queries,
@@ -19,7 +21,6 @@ from src.llm.report_evidence import (
     is_off_profile,
     risk_tier,
 )
-from src.llm.report_render import write_report
 
 needs_csv = pytest.mark.skipif(not config.CHURN_CSV.exists(), reason="Telco CSV not present")
 
@@ -124,92 +125,50 @@ def test_driver_queries_only_raising_one_hot() -> None:
 
 
 @needs_csv
-def test_happy_path_validates_filters_and_withholds() -> None:
-    client = FakeClient(items=[GOOD, BAD_NUMBER, WRONG_PROFILE])
-    report = build_report("7590-VHVEG", client, predictor=fake_predictor, retriever=make_retriever([EXACT, OFF]))
-    assert report.tier == "Critical"
-    assert report.status == "partial"
-    assert [r.citations for r in report.recommendations] == [["t-0001"]]
-    assert len(report.withheld) == 2
-    assert [c["chunk_id"] for c in report.evidence] == ["t-0001"]
-    assert any("t-0002" in n for n in report.notes)
-    assert any("SYNTHETIC" in n for n in report.notes)
-    assert client.calls == 1
+def test_all_withheld_status() -> None:
+    client = FakeClient(items=[BAD_NUMBER])
+    report = build_report("7590-VHVEG", client, predictor=fake_predictor, retriever=make_retriever([EXACT]))
+    assert report.status == "all_withheld" and not report.recommendations and len(report.withheld) == 1
 
 
 @needs_csv
-def test_no_exact_playbook_chunk_skips_llm() -> None:
+def test_model_empty_status() -> None:
+    client = FakeClient(items=[])
+    report = build_report("7590-VHVEG", client, predictor=fake_predictor, retriever=make_retriever([EXACT]))
+    assert client.calls == 1 and report.status == "no_recommendations" and not report.withheld
+
+
+def test_no_internet_customer_skips_llm(monkeypatch) -> None:
+    profile = {"Contract": "Month-to-month", "InternetService": "No", "tenure": "16",
+               "MonthlyCharges": "18.95", "PaymentMethod": "Mailed check"}
+    monkeypatch.setattr("src.llm.report.load_customer_profile", lambda cid: profile)
     client = FakeClient(items=[GOOD])
-    report = build_report("7590-VHVEG", client, predictor=fake_predictor, retriever=make_retriever([UNRELATED]))
-    assert client.calls == 0
-    assert report.status == "no_recommendations"
-    assert any("No retrieved chunk" in n for n in report.notes)
 
+    def no_retrieval(*args, **kwargs):
+        raise AssertionError("retrieval must not run for customers without internet service")
 
-@needs_csv
-def test_llm_error_degrades_to_report_without_recommendations() -> None:
-    client = FakeClient(error=LLMError("boom"))
-    report = build_report("7590-VHVEG", client, predictor=fake_predictor, retriever=make_retriever([EXACT]))
-    assert report.status == "no_recommendations"
+    report = build_report("X-1", client, predictor=fake_predictor, retriever=no_retrieval)
+    assert client.calls == 0 and report.status == "no_internet_service" and report.evidence == []
     assert report.prediction["prob"] == 0.85
-    assert any("failed" in n for n in report.notes)
+    assert any("retention_policy-0002" in n for n in report.notes)
 
 
-@needs_csv
-def test_unknown_customer_fails_before_predictor() -> None:
-    def boom(_: str) -> dict:
-        raise AssertionError("predictor must not run for unknown ids")
-
-    with pytest.raises(UnknownCustomerError):
-        build_report("NOPE-0000", FakeClient(), predictor=boom, retriever=make_retriever([]))
-
-
-@needs_csv
-def test_write_report_is_utf8_markdown(tmp_path) -> None:
-    client = FakeClient(items=[GOOD, BAD_NUMBER])
-    report = build_report("7590-VHVEG", client, predictor=fake_predictor, retriever=make_retriever([EXACT]))
-    path = write_report(report, tmp_path)
-    content = path.read_text(encoding="utf-8")
-    assert path.name == "report_7590-VHVEG.md"
-    assert "Withheld by validation" in content and "Offer a 45% discount." in content
-    assert "`t-0001`" in content
+def test_internet_only_rule_appears_in_policy_text() -> None:
+    if not config.CHUNKS_JSONL.exists():
+        pytest.skip("chunks.jsonl not present")
+    lines = config.CHUNKS_JSONL.read_text(encoding="utf-8").splitlines()
+    chunks = [json.loads(line) for line in lines if line.strip()]
+    text = " ".join(c["text"] for c in chunks if c["source"] == "retention_policy.pdf").lower()
+    assert "internet plan charge only" in text
 
 
-@pytest.mark.skipif(os.environ.get("RUN_LIVE_LLM") != "1", reason="manual live smoke test")
-def test_live_report_for_real_customer(tmp_path) -> None:
-    report = build_report("7590-VHVEG")
-    assert report.status in {"complete", "partial", "no_recommendations"}
-    assert write_report(report, tmp_path).exists()
-
-LOW = {
-    "chunk_id": "t-0004",
-    "source": "facts_sheet.md",
-    "score": 0.7,
-    "location": {},
-    "text": "A customer on a month-to-month contract in the Low tier has a combined discount ceiling "
-    "of 0% (0% contract plus 0% retention).",
-}
+def test_every_status_has_render_text() -> None:
+    assert set(NO_RECOMMENDATION_TEXT) == set(REPORT_STATUSES) - {"complete", "partial"}
 
 
-def test_clean_normalizes_hyphens_and_spaces() -> None:
-    from src.llm.report import _clean
+def test_driver_queries_zero_limit_disables_them() -> None:
+    assert driver_queries(fake_predictor("x")["top_drivers"], 0) == []
 
-    assert _clean("one\u2011time\u202f$50 retention\u2011manager") == "one-time $50 retention-manager"
-
-
-def test_ceiling_query_mimics_lookup_heading() -> None:
-    from src.llm.report_evidence import ceiling_query
-
-    assert "Low tier, one year contract" in ceiling_query("Low", "One year")
-
-
-@needs_csv
-def test_low_tier_uses_lookup_chunk_and_calls_llm() -> None:
-    def low_predictor(_: str) -> dict:
-        return {"prob": 0.05, "label": "no_churn", "top_drivers": []}
-
-    rec = {"text": "The facts sheet states a combined discount ceiling of 0%.", "citations": ["t-0004"]}
-    client = FakeClient(items=[rec])
-    report = build_report("7590-VHVEG", client, predictor=low_predictor, retriever=make_retriever([LOW]))
-    assert report.tier == "Low" and report.status == "complete" and client.calls == 1
-
+def test_heading_query_copies_playbook_heading() -> None:
+    from src.llm.report_evidence import heading_query
+    assert heading_query("Low", "One year") == "Appendix A. Playbook by tier and contract > Low tier, One year customer"

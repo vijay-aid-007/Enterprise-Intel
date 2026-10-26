@@ -227,3 +227,24 @@ LIVE_PROMPTS = {
 def test_live_agent_picks_the_right_first_tool(prompt, tool) -> None:
     result = run_agent(prompt)
     assert result.trace and result.trace[0].tool == tool, result.to_dict()
+
+def test_forced_final_gets_budget_notice() -> None:
+    client = ScriptedClient([say(call("calculate", expression="1 + 1")), final("It is 2.")])
+    result = run_agent("q", client, max_steps=1, ctx=make_ctx())
+    last = client.calls[1]["messages"][-1]
+    assert last["role"] == "user" and "final_answer" in last["content"]
+    assert result.status == "answered"
+
+
+def test_failed_forced_final_is_no_final_answer_not_llm_error() -> None:
+    client = ScriptedClient([say(call("calculate", expression="1 + 1"))])  # next call raises LLMError
+    result = run_agent("q", client, max_steps=1, ctx=make_ctx())
+    assert result.status == "no_final_answer" and result.steps_used == 1
+    assert any("forced final call failed" in i for i in result.issues)
+
+def test_rate_limit_wait_parses_groq_message() -> None:
+    from src.llm.client import _rate_limit_wait
+
+    msg = "Error code: 429 - {'error': {'code': 'rate_limit_exceeded', 'message': 'Please try again in 1.297499999s.'}}"
+    assert _rate_limit_wait(RuntimeError(msg)) == pytest.approx(2.3, abs=0.01)
+    assert _rate_limit_wait(RuntimeError("Error code: 400 - tool_use_failed")) is None

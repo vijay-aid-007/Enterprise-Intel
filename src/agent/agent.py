@@ -37,6 +37,11 @@ REJECTED_MESSAGE = "The drafted answer failed automatic grounding checks and was
 LLM_ERROR_MESSAGE = "The language model call failed."
 NO_FINAL_MESSAGE = "The agent did not produce a final answer."
 
+BUDGET_NOTICE = (
+    "All tool calls are used up. Reply now by calling final_answer. "
+    "If the tool results do not contain the answer, set can_answer=false and say what is missing."
+)
+
 SYSTEM_PROMPT = """You are an analyst assistant for a fictional telecom company. You answer by calling tools, then finish by calling final_answer.
 
 Tools:
@@ -52,7 +57,9 @@ Rules:
 4. Document facts come from synthetic documents: attribute them to the documents and never present them as real-world facts.
 5. A retention discount and a combined discount ceiling are different limits; say which one a number refers to.
 6. If a tool returns an error, fix the arguments once. If it still fails, or the documents do not contain the answer, call final_answer with can_answer=false and say what is missing.
-7. In final_answer, list in "citations" the ids of the document chunks you relied on (ids in chunk tags or in report recommendations). Answers based only on analyze_data or calculate need no citations."""
+7. In final_answer, list in "citations" the ids of the document chunks you relied on (ids in chunk tags or in report recommendations). Answers based only on analyze_data or calculate need no citations.
+8. In final_answer, use only numbers that appear in the question or in tool results. Do not show intermediate arithmetic such as "(100% - 40%) = 60%"; give the inputs from the question and the tool's result."""
+
 
 FINAL_TOOL: ToolSpec = {
     "name": FINAL_NAME,
@@ -174,8 +181,14 @@ def run_agent(
     system = SYSTEM_PROMPT.format(max_steps=max_steps)
     messages: list[dict[str, Any]] = [{"role": "user", "content": f"Question: {question}"}]
     nudged = False
+    budget_notice_sent = False
     for _ in range(max_steps + 3):  # max_steps tool turns + forced final + one nudge
-        force_final = steps_used >= max_steps or nudged
+        budget_spent = steps_used >= max_steps
+        force_final = budget_spent or nudged
+        if budget_spent and not budget_notice_sent:
+            # Explain why the tools vanished; live run: model kept asking for them (Platinum prompt).
+            messages.append({"role": "user", "content": BUDGET_NOTICE})
+            budget_notice_sent = True
         try:
             response = llm.complete(
                 system,
@@ -185,7 +198,9 @@ def run_agent(
             )
         except LLMError as exc:
             logger.error("LLM call failed: %s", exc)
-            return done(STATUS_LLM_ERROR, LLM_ERROR_MESSAGE, issues=[str(exc)])
+            if budget_spent:  # tools already ran; only the forced final call failed
+                return done(STATUS_NO_FINAL, NO_FINAL_MESSAGE, issues=[f"forced final call failed: {exc}"])
+            return done(STATUS_LLM_ERROR, LLM_ERROR_MESSAGE, issues=[str(exc)])    
         final = next((c for c in response.tool_calls if c.name == FINAL_NAME), None)
         if final is not None:
             return _finish(final.arguments, ctx, done)

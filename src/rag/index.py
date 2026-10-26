@@ -15,6 +15,8 @@ from functools import lru_cache
 from pathlib import Path
 
 import chromadb
+from chromadb.api import ClientAPI
+from chromadb.config import Settings
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
 
@@ -49,7 +51,7 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def get_client() -> "chromadb.api.ClientAPI":
+def get_client():
     """Persistent Chroma client rooted at config.CHROMA_DIR (telemetry off)."""
     config.CHROMA_DIR.mkdir(parents=True, exist_ok=True)
     return chromadb.PersistentClient(
@@ -84,7 +86,7 @@ def build_index() -> int:
         col.add(
             ids=[c["chunk_id"] for c in batch],
             documents=texts,
-            embeddings=embed_texts(texts),
+            embeddings=embed_texts(texts),              # pyright: ignore[reportArgumentType]
             metadatas=[
                 {
                     "source": c["source"],

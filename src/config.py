@@ -77,7 +77,8 @@ LLM_MAX_TOKENS: int = 1024
 LLM_TIMEOUT_S: float = 60.0
 GEN_K: int = 5
 GEN_DOC_TYPES: tuple[str, ...] = ("markdown", "pdf", "docx")  # excludes support tickets (csv)
-
+LLM_RATE_RETRIES: int = 3        # extra attempts after a 429; the Groq on_demand limit seen was 8000 tokens/minute
+LLM_RATE_MAX_WAIT_S: float = 30.0
 
 # ---------------------------------------------------------------- Report (Step 5)
 # Risk-tier lower bounds read by hand from the SYNTHETIC retention policy:
@@ -93,7 +94,7 @@ TIER_BANDS: tuple[tuple[str, float], ...] = (
 REPORT_DIR: Path = DATA_PROCESSED / "reports"
 REPORT_K: int = 5
 REPORT_MAX_CHUNKS: int = 8
-REPORT_MAX_DRIVER_QUERIES: int = 2
+REPORT_MAX_DRIVER_QUERIES: int = 0  # off: added only noise on the 5 reports seen
 REPORT_MAX_RECOMMENDATIONS: int = 4
 
 # ---------------------------------------------------------------- Agent (Step 6)

@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import argparse
 import logging
-import re
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Callable
@@ -32,7 +31,15 @@ logger = logging.getLogger(__name__)
 
 STATUS_COMPLETE = "complete"
 STATUS_PARTIAL = "partial"  # some drafted recommendations were withheld
-STATUS_NO_RECOMMENDATIONS = "no_recommendations"
+STATUS_ALL_WITHHELD = "all_withheld"  # every drafted recommendation failed validation
+STATUS_NO_RECOMMENDATIONS = "no_recommendations"  # model was called and returned an empty list
+STATUS_NO_PLAYBOOK = "no_playbook_evidence"  # gate: exact tier/contract chunk missing, LLM not called
+STATUS_NO_INTERNET = "no_internet_service"  # gate: no internet plan, LLM not called
+STATUS_LLM_ERROR = "llm_error"  # provider or reply-format failure
+REPORT_STATUSES: tuple[str, ...] = (
+    STATUS_COMPLETE, STATUS_PARTIAL, STATUS_ALL_WITHHELD, STATUS_NO_RECOMMENDATIONS,
+    STATUS_NO_PLAYBOOK, STATUS_NO_INTERNET, STATUS_LLM_ERROR,
+)
 
 _ODD_CHARS = str.maketrans(
     {
@@ -221,17 +228,28 @@ def build_report(
     prediction = predictor(customer_id)
     tier = risk_tier(float(prediction["prob"]))
     drivers = list(prediction.get("top_drivers", []))
-    chunks, dropped = gather_evidence(profile, tier, drivers, retriever, k)
     report = Report(
         customer_id=customer_id,
         profile=profile,
         prediction=prediction,
         tier=tier,
-        evidence=chunks,
-        notes=_base_notes(chunks, dropped),
+        notes=_base_notes([], []),
     )
+    if profile.get("InternetService") == "No":
+        report.status = STATUS_NO_INTERNET
+        report.notes.append(
+            "The customer has no internet service in the dataset. The synthetic retention policy ties "
+            "retention discounts to the internet plan charge (see retention_policy-0002), so no "
+            "recommendation was generated. Other offers, such as contract-switch bill credits, "
+            "were not evaluated for this customer."
+        )
+        return report
+    chunks, dropped = gather_evidence(profile, tier, drivers, retriever, k)
+    report.evidence = chunks
+    report.notes = _base_notes(chunks, dropped)
     contract = profile["Contract"]
     if not any(is_exact_match(c["text"], tier, contract) for c in chunks):
+        report.status = STATUS_NO_PLAYBOOK
         report.notes.append(
             f"No retrieved chunk states the playbook for the {tier} tier and {contract} contract, "
             "so no recommendations were generated."
@@ -242,6 +260,7 @@ def build_report(
         items = draft_recommendations(llm, build_user_message(profile, tier, drivers, chunks))
     except (LLMError, ValueError) as exc:
         logger.error("Recommendation step failed: %s", exc)
+        report.status = STATUS_LLM_ERROR
         report.notes.append(f"Recommendation step failed: {exc}")
         return report
     if not items:
@@ -251,6 +270,10 @@ def build_report(
     )
     if report.recommendations:
         report.status = STATUS_PARTIAL if report.withheld else STATUS_COMPLETE
+    elif report.withheld:
+        report.status = STATUS_ALL_WITHHELD
+    else:
+        report.status = STATUS_NO_RECOMMENDATIONS
     return report
 
 

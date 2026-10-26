@@ -7,6 +7,8 @@ Setup: pip install groq
 from __future__ import annotations
 
 import json
+import re 
+import time
 import logging
 import os
 from dataclasses import dataclass, field
@@ -48,7 +50,7 @@ class LLMClient(Protocol):
     def complete(
         self,
         system: str,
-        messages: list[dict[str, str]],
+        messages: list[dict[str, Any]],
         tools: list[ToolSpec] | None = None,
         force_tool: str | None = None,
     ) -> LLMResponse:
@@ -67,6 +69,20 @@ def load_env_file(path: Path = config.ENV_FILE) -> None:
         key, _, value = line.partition("=")
         os.environ.setdefault(key.strip(), value.strip().strip("'\""))
 
+_RETRY_AFTER_RE = re.compile(r"try again in ([0-9.]+)\s*(ms|s)", re.IGNORECASE)
+
+
+def _rate_limit_wait(exc: Exception) -> float | None:
+    """Seconds to wait if exc is a 429 rate-limit error, else None. Parses Groq's 'try again in 1.29s'."""
+    text = str(exc)
+    if getattr(exc, "status_code", None) != 429 and "rate_limit_exceeded" not in text:
+        return None
+    match = _RETRY_AFTER_RE.search(text)
+    seconds = 0.0
+    if match:
+        seconds = float(match.group(1)) / (1000 if match.group(2).lower() == "ms" else 1)
+    return min(max(seconds + 1.0, 2.0), config.LLM_RATE_MAX_WAIT_S)        
+
 
 class GroqClient:
     """Thin adapter over the Groq SDK."""
@@ -82,7 +98,7 @@ class GroqClient:
     def complete(
         self,
         system: str,
-        messages: list[dict[str, str]],
+        messages: list[dict[str, Any]],
         tools: list[ToolSpec] | None = None,
         force_tool: str | None = None,
     ) -> LLMResponse:
@@ -102,10 +118,20 @@ class GroqClient:
             ]
             if force_tool:
                 kwargs["tool_choice"] = {"type": "function", "function": {"name": force_tool}}
-        try:
-            resp = self._sdk.chat.completions.create(**kwargs)
-        except Exception as exc:  # SDK raises many exception types; normalise to one
-            raise LLMError(f"Groq call failed: {exc}") from exc
+        
+        resp = None
+        for attempt in range(config.LLM_RATE_RETRIES + 1):
+            try:
+                resp = self._sdk.chat.completions.create(**kwargs)
+                break
+            except Exception as exc:  # SDK raises many exception types; normalise to one
+                wait = _rate_limit_wait(exc)
+                if wait is None or attempt == config.LLM_RATE_RETRIES:
+                    raise LLMError(f"Groq call failed: {exc}") from exc
+                logger.warning("Groq rate limit; waiting %.1fs (retry %d)", wait, attempt + 1)
+                time.sleep(wait)
+        if resp is None:  # unreachable; keeps the type checker honest
+            raise LLMError("Groq call returned no response")
 
         message = resp.choices[0].message
         calls: list[ToolCall] = []

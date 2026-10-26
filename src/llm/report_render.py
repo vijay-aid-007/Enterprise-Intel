@@ -18,6 +18,13 @@ LIMITATIONS: tuple[str, ...] = (
     "That filter relies on the wording of the documents.",
 )
 
+NO_RECOMMENDATION_TEXT: dict[str, str] = {
+    "all_withheld": "Every drafted recommendation failed validation. See section 3.",
+    "no_recommendations": "The model returned no recommendations for this evidence.",
+    "no_playbook_evidence": "The playbook for this tier and contract was not retrieved, so the model was not asked.",
+    "no_internet_service": "Not applicable: the customer has no internet service. See notes below.",
+    "llm_error": "The language model call failed, so no recommendations were generated.",
+}
 
 def _cell(value: Any) -> str:
     """Make a value safe inside a markdown table cell."""
@@ -68,7 +75,7 @@ def render_markdown(report: "Report") -> str:
                 chunk = by_id.get(cid, {})
                 out.append(f"   - Source `{cid}`: {chunk.get('source')} ({format_location(chunk.get('location'))})")
     else:
-        out.append("No recommendation passed validation. See notes below.")
+        out.append(NO_RECOMMENDATION_TEXT.get(report.status, "No recommendations. See notes below."))
     out += ["", "## 3. Withheld by validation (unsupported, omitted from section 2)", ""]
     if report.withheld:
         out += [f"- \"{w.text}\" -- {'; '.join(w.issues)}" for w in report.withheld]

@@ -91,6 +91,10 @@ def playbook_query(tier: str, contract: str) -> str:
         "Maximum retention discount, approval and combined discount ceiling"
     )
 
+def heading_query(tier: str, contract: str) -> str:
+    """Query that copies the Appendix A chunk heading only (reaches Low-tier playbook chunks)."""
+    return f"Appendix A. Playbook by tier and contract > {tier} tier, {contract} customer"
+
 def ceiling_query(tier: str, contract: str) -> str:
     """Query phrased like the facts-sheet 'Discount ceiling' headings (reaches tiers Appendix A lacks)."""
     return (
@@ -100,6 +104,9 @@ def ceiling_query(tier: str, contract: str) -> str:
 
 def driver_queries(drivers: list[dict[str, Any]], limit: int) -> list[str]:
     """Queries for one-hot drivers that raise churn risk, e.g. 'Contract_Month-to-month'."""
+    if limit <= 0:
+        return []
+    
     queries: list[str] = []
     for driver in drivers:
         if float(driver.get("contribution", 0.0)) <= 0:
@@ -127,6 +134,7 @@ def gather_evidence(
     contract = profile["Contract"]
     queries = [
         playbook_query(tier, contract),
+        heading_query(tier, contract),
         ceiling_query(tier, contract),
         *driver_queries(drivers, config.REPORT_MAX_DRIVER_QUERIES),
     ]

@@ -1,6 +1,6 @@
 # Churn risk report: 5575-GNVDE
 
-Report status: **no_recommendations**
+Report status: **complete**
 
 ## 1. Risk prediction (ML model, real Telco data)
 
@@ -18,7 +18,12 @@ Report status: **no_recommendations**
 
 ## 2. Recommended retention actions (from documents)
 
-No recommendation passed validation. See notes below.
+1. Make a courtesy call and offer a 12-month price lock.
+   - Source `retention_policy-0008`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Low tier, One year customer, page: 2)
+2. If the customer agrees to a two-year renewal, offer a one-time $75 bill credit.
+   - Source `retention_policy-0008`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Low tier, One year customer, page: 2)
+3. Any discount provided must stay within the combined discount ceiling of 5% for Low tier, one-year contracts.
+   - Source `facts_sheet-0068`: facts_sheet.md (section: Brightline Telecom - Facts Sheet > Lookup C. Combined discount ceilings > Discount ceiling: Low tier, one year contract)
 
 ## 3. Withheld by validation (unsupported, omitted from section 2)
 
@@ -28,14 +33,15 @@ Nothing was withheld.
 
 | chunk_id | source | location | retrieval score |
 |---|---|---|---|
+| retention_policy-0008 | retention_policy.pdf | section: Appendix A. Playbook by tier and contract > Low tier, One year customer, page: 2 | 0.033 |
 | facts_sheet-0068 | facts_sheet.md | section: Brightline Telecom - Facts Sheet > Lookup C. Combined discount ceilings > Discount ceiling: Low tier, one year contract | 0.032 |
+| retention_policy-0006 | retention_policy.pdf | section: Appendix A. Playbook by tier and contract, page: 1 | 0.031 |
 
 ## 5. Notes and limitations
 
 - Tier thresholds are applied directly to the model's churn probability. That is an assumption about what the policy's 'risk score' means.
 - Policy, plan and price statements come from SYNTHETIC documents (LLM-generated). They are not facts about the real Telco dataset.
-- Excluded 9 retrieved chunk(s) written for other tiers or contract types: retention_policy-0014, retention_policy-0013, retention_policy-0017, retention_policy-0015, retention_policy-0016, facts_sheet-0069, facts_sheet-0071, facts_sheet-0072, facts_sheet-0067.
-- The model returned no recommendations.
+- Excluded 12 retrieved chunk(s) written for other tiers or contract types: retention_policy-0014, retention_policy-0013, retention_policy-0017, retention_policy-0015, retention_policy-0016, retention_policy-0007, retention_policy-0009, retention_policy-0011, facts_sheet-0069, facts_sheet-0071, facts_sheet-0072, facts_sheet-0067.
 - predict_customer works only for customer ids present in the Telco CSV.
 - Recommendations are model-drafted. Code checks that cited ids exist and that every number appears in a cited chunk (a text match). It does not check that the wording is right.
 - Only evidence for this customer's tier and contract type is shown to the model. That filter relies on the wording of the documents.
