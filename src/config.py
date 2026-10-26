@@ -55,3 +55,14 @@ DOC_FILES: tuple[str, ...] = (
 SYNTHETIC_DOCS: frozenset[str] = frozenset(DOC_FILES)  # all five are LLM-generated
 CHUNKS_JSONL: Path = DATA_PROCESSED / "chunks.jsonl"
 CHUNK_MAX_CHARS: int = 900  # ~200 tokens; MiniLM truncates at 256 tokens
+
+
+# --- RAG (Step 3) ---
+EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+CHROMA_DIR = INDEXES_DIR / "chroma"
+CHROMA_COLLECTION = "chunks"
+RETRIEVAL_MODE = "hybrid"          # "dense" | "bm25" | "hybrid"
+RRF_K = 60                         # standard RRF constant
+CANDIDATES_PER_BACKEND = 20        # each backend contributes its top-N to fusion
+DENSE_MIN_SIM = 0.25               # UNTUNED placeholder: tune on dev gold questions (Step 9)
+BM25_MIN_SCORE = 0.0               # disabled until tuned

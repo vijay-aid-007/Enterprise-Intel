@@ -40,7 +40,8 @@ def facts() -> list[Sec]:
     core = [
         Sec("Company", ["- Brightline Telecom is a fictional residential telecom provider.",
                         f"- Customer support is open {SUPPORT_OPEN}:00 to {SUPPORT_CLOSE}:00 local time, 7 days a week.",
-                        "- Retention offers follow the Retention Policy, and prices follow the Plans and Pricing Guide."]),
+                        "- Retention offers follow the Retention Policy, and prices follow the Plans and Pricing Guide.",
+                        "- The customer data export lists each customer's list price total before contract discounts and credits."]),
         Sec("Support service levels", ["First response targets for Urgent and High tickets count support hours only."], sla),
         Sec("Retention operations", ["- The retention team contacts at-risk customers during support hours only.",
                                      f"- Each retention agent handles at most {CALLS_PER_AGENT} outbound retention calls per day.",
@@ -56,11 +57,14 @@ def facts() -> list[Sec]:
                   f"{a} ({usd(ADDONS[a])}) and {b} ({usd(ADDONS[b])}) together cost {usd(ADDONS[a] + ADDONS[b])} per month, or {usd(12 * (ADDONS[a] + ADDONS[b]))} per year.")
              for a, b in combinations(ADDONS, 2)]
     ceil = [item(f"Discount ceiling: {t} tier, {c.lower()} contract",
-                 f"A customer on a {c.lower()} contract in the {t} tier has a combined discount ceiling of {p + cp}% ({cp}% contract plus {p}% retention). On Fiber optic Standard that is {cents(internet_cents('Fiber optic Standard', c, p))} per month before add-ons, phone lines and the automatic payment credit.")
+                 f"A customer on a {c.lower()} contract in the {t} tier has a combined discount ceiling of {p + cp}% ({cp}% contract plus {p}% retention). On Fiber optic that is {cents(internet_cents('Fiber optic', c, p))} per month before add-ons, phone lines and the automatic payment credit.")
             for (t, _, _, p, _, _), (c, (cp, _, _)) in product(TIERS, CONTRACTS.items())]
     staff = [item(f"Retention capacity: {n} agent{plural(n)}",
                   f"A retention team of {n} agent{plural(n)} can make at most {CALLS_PER_AGENT * n} outbound retention calls per day.")
              for n in range(1, 21)]
+    plus = [item(f"Plan plus add-ons: {plan}, {contract.lower()}, {a} and {b}",
+                 f"{plan} on a {contract.lower()} contract with {a} and {b}: internet {cents(internet_cents(plan, contract))}, add-ons {usd(ADDONS[a] + ADDONS[b])}, total {cents(internet_cents(plan, contract) + 100 * (ADDONS[a] + ADDONS[b]))} per month before phone lines, the automatic payment credit and taxes.")
+            for plan, contract, (a, b) in product(PLANS, CONTRACTS, combinations(ADDONS, 2))]
     sl = [item(f"Deadline: {pr} ticket opened at {h}:00",
                f"{'An' if pr == 'Urgent' else 'A'} {pr} ticket opened at {h}:00 must have a first response by {due(h, add)}. Support hours count only between {SUPPORT_OPEN}:00 and {SUPPORT_CLOSE}:00.")
           for (pr, add), h in product((("Urgent", 1), ("High", 4)), range(SUPPORT_OPEN, SUPPORT_CLOSE))]
@@ -69,7 +73,8 @@ def facts() -> list[Sec]:
         fam("Lookup B. Add-on pairs", "Add-on prices are never discounted.", pairs),
         fam("Lookup C. Combined discount ceilings", "The combined ceiling never exceeds the 40 percent cap.", ceil),
         fam("Lookup D. Retention team capacity", "Capacity is agents times the daily call limit.", staff),
-        fam("Lookup E. First response deadlines", "Only support hours count toward the target.", sl)])
+        fam("Lookup E. First response deadlines", "Only support hours count toward the target.", sl),
+        fam("Lookup F. Plan plus add-on pair totals", "Totals use list prices, the contract discount and add-on prices.", plus)])
 
 
 def build_pdf(path: Path, title: str, secs: list[Sec]) -> None:

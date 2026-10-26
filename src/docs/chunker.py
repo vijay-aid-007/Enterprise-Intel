@@ -17,11 +17,12 @@ from collections import defaultdict
 from pathlib import Path
 
 from src import config
-from src.docs.loaders import Section, load_all
+from src.docs.common import Section
+from src.docs.loaders import load_all
 
 logger = logging.getLogger(__name__)
 
-_UNIT_SPLIT = re.compile(r"(?<=[.!?])\s+|\n+")
+_UNIT_SPLIT = re.compile(r"(?<=[.!?])\s+|\n(?=\s*(?:[-*\u2022]|\d+[.)])\s)")  # sentence ends, list items
 _MIN_BUDGET = 300
 _LABEL_MAX = 200  # a text block this short right before a table is its label
 

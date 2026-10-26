@@ -8,9 +8,12 @@ authors = [
 ]
 requires-python = ">=3.11"
 dependencies = [
+    "chromadb>=1.5.9",
     "joblib>=1.6.0",
     "pandas>=3.1.0",
+    "rank-bm25>=0.2.2",
     "scikit-learn>=1.2",
+    "sentence-transformers>=6.2.0",
     "shap>=0.51.0",
     "xgboost>=3.2.0",
 ]

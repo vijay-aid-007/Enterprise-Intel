@@ -1,227 +1,715 @@
-# Vantage Telecom: Company Facts Sheet
+# Brightline Telecom - Facts Sheet
 
-> **SYNTHETIC DOCUMENT.** Vantage Telecom is a fictional company. Every price, discount, rule, date and support hour in this sheet was invented for a software assignment. None of it is a fact about any real company or about the Kaggle dataset. The only exception is Section 8, whose statistics were computed directly from the real file `telco-customer-churn.csv`.
+> SYNTHETIC DOCUMENT - generated for a hiring assignment. Fictional company; not real policy and not facts about the Telco dataset.
 
-Version 1.0 | Effective date: 2026-01-01 | Owner: Customer Operations (fictional)
+## Company
 
-## 1. Purpose and how to use this sheet
+- Brightline Telecom is a fictional residential telecom provider.
 
-This sheet is the single source of truth for the numbers used across the Vantage Telecom document set. The Retention Policy (`retention_policy.pdf`), the Plans and Pricing Guide (`plans_pricing_guide.docx`), the Service Terms (`service_terms.pdf`) and the support ticket export (`support_tickets.csv`) repeat or refine these facts. Where they add detail, they do not contradict this sheet.
+- Customer support is open 8:00 to 22:00 local time, 7 days a week.
 
-Agents, analysts and automated assistants should quote figures exactly as written here. All money amounts are in US dollars and are monthly unless stated otherwise. Percentages are percentages of the list price total, which is defined in Section 4. Prices exclude taxes and regulatory fees, which are added to the invoice separately.
+- Retention offers follow the Retention Policy, and prices follow the Plans and Pricing Guide.
 
-If a question is not answered by this sheet or by the other documents in the set, the correct response is to say that the documents do not cover it. Staff must not guess or fill gaps from general telecom knowledge.
+- The customer data export lists each customer's list price total before contract discounts and credits.
 
-## 2. Services and list prices
+## Support service levels
 
-Vantage Telecom sells phone service and internet service, plus optional add-on services. The names below match the field names used in the customer data export so that analysts can map a customer record to the services described here.
+First response targets for Urgent and High tickets count support hours only.
 
-### 2.1 Phone service
-
-The base phone line (field `PhoneService`) costs $20.00 per month. A customer may add extra lines (field `MultipleLines`). Each additional line costs $5.00 per month. An account can have at most 4 lines in total, which means at most 3 additional lines. A customer without phone service has the value "No phone service" in the `MultipleLines` field.
-
-### 2.2 Internet service
-
-Internet service (field `InternetService`) comes in two types. A customer with no internet has the value "No".
-
-- **DSL** costs $30.00 per month and offers speeds of up to 50 Mbps.
-- **Fiber optic** costs $55.00 per month and offers speeds of up to 1000 Mbps (1 Gbps).
-
-Actual speeds depend on the customer's location and equipment. Internet service can be bought with or without phone service.
-
-### 2.3 Add-on services
-
-Add-ons are only available to customers who have DSL or Fiber optic internet. A customer with no internet has the value "No internet service" in every add-on field. Each add-on is a separate monthly charge.
-
-| Add-on | Data field | Price per month | What it includes |
-| --- | --- | --- | --- |
-| Online Security | `OnlineSecurity` | $5.00 | Security software for up to 3 devices |
-| Online Backup | `OnlineBackup` | $5.00 | 100 GB of cloud storage |
-| Device Protection | `DeviceProtection` | $5.00 | One replacement of the Vantage-supplied router or modem per rolling 12 months, with a $25.00 deductible |
-| Tech Support | `TechSupport` | $5.00 | Priority support line and priority ticket response (see Section 6) |
-| Streaming TV | `StreamingTV` | $10.00 | A package of 60 live channels |
-| Streaming Movies | `StreamingMovies` | $10.00 | An on-demand movie library with up to 2 simultaneous streams |
-
-### 2.4 List price summary
-
-| Item | Monthly list price |
-| --- | --- |
-| Phone line (base) | $20.00 |
-| Additional phone line | $5.00 each |
-| DSL internet | $30.00 |
-| Fiber optic internet | $55.00 |
-| Online Security | $5.00 |
-| Online Backup | $5.00 |
-| Device Protection | $5.00 |
-| Tech Support | $5.00 |
-| Streaming TV | $10.00 |
-| Streaming Movies | $10.00 |
-
-The list price total is the sum of the list prices of everything on the account. A fully loaded account (phone, 3 additional lines, Fiber optic and all six add-ons) has a list price total of $130.00. These list prices are synthetic and are not claimed to reproduce the monthly charges in the real dataset.
-
-## 3. Contracts
-
-Every account is on one of three contract types (field `Contract`).
-
-| Contract | Term | Contract discount | Early termination fee |
-| --- | --- | --- | --- |
-| Month-to-month | None, renews monthly | 0% | None |
-| One year | 12 months | 5% | Yes, see below |
-| Two year | 24 months | 10% | Yes, see below |
-
-The contract discount is a percentage taken off the list price total for as long as the contract is active.
-
-**Early termination fee.** A customer on a One year or Two year contract who cancels before the term ends pays an early termination fee of $12.00 for each full month remaining in the term. The fee is capped at $250.00. For example, a customer cancelling with 7 full months remaining pays $84.00, and a customer cancelling with 22 full months remaining would owe $264.00 before the cap, so pays $250.00. Month-to-month accounts never pay an early termination fee.
-
-**End of term.** When a One year or Two year term ends, the account automatically becomes a Month-to-month account and loses its contract discount unless the customer signs a new term. Customers receive a reminder 30 days before the term ends.
-
-**Cancellation timing.** A cancellation takes effect at the end of the current billing cycle. No refund is given for a partial month.
-
-## 4. How the monthly bill is calculated
-
-The monthly bill is calculated in this fixed order.
-
-1. Add up the list prices of every service and add-on on the account. This is the **list price total**.
-2. Add the contract discount percentage and any retention discount percentage. This is the **combined percentage discount**.
-3. If the combined percentage discount is more than 25%, reduce it to 25%. **The maximum total percentage discount on any account is 25%.**
-4. Multiply the list price total by (1 minus the combined percentage discount).
-5. Subtract any fixed credits. The only fixed credit is the autopay credit of $5.00 per month, given to accounts that pay by Bank transfer (automatic) or Credit card (automatic).
-6. If the result is below $15.00, the bill is $15.00. **The minimum monthly bill is $15.00.**
-
-Fixed credits are never counted toward the 25% cap, because they are not percentages.
-
-### Worked examples
-
-**Example 1.** Phone and DSL, Month-to-month, paying by Electronic check. List price total is $20.00 + $30.00 = $50.00. The contract discount is 0%, there is no autopay credit, so the bill is **$50.00**.
-
-**Example 2.** Phone, Fiber optic, Tech Support and Streaming TV on a One year contract, paying by Credit card (automatic). List price total is $20.00 + $55.00 + $5.00 + $10.00 = $90.00. The contract discount is 5%, so $90.00 x 0.95 = $85.50. After the $5.00 autopay credit the bill is **$80.50**.
-
-**Example 3.** Phone, 1 additional line, Fiber optic and all six add-ons, on a Two year contract with a Win-back retention offer of 20%. List price total is $20.00 + $5.00 + $55.00 + $5.00 + $5.00 + $5.00 + $5.00 + $10.00 + $10.00 = $120.00. The combined percentage discount is 10% + 20% = 30%, which is reduced to the 25% cap. So $120.00 x 0.75 = $90.00. The customer pays by Bank transfer (automatic), so after the $5.00 credit the bill is **$85.00**.
-
-**Example 4.** Phone only (one line) on a Two year contract, paying by Bank transfer (automatic). The list price total is $20.00. The contract discount is 10%, so $20.00 x 0.90 = $18.00. After the $5.00 autopay credit the result is $13.00, which is below the minimum, so the bill is **$15.00**.
-
-## 5. Billing, payment and late payment
-
-Customers can pay by four methods (field `PaymentMethod`): Electronic check, Mailed check, Bank transfer (automatic) and Credit card (automatic). The two automatic methods qualify for the $5.00 autopay credit. Customers can choose paperless billing (field `PaperlessBilling`) or paper statements. Paperless billing has no price difference and no credit.
-
-Invoices are issued on the first day of each billing cycle and payment is due 15 days after the invoice date. A payment that arrives after the due date incurs a late fee of $7.50. The late fee is charged once per invoice and is not charged again if the invoice stays unpaid.
-
-An account is **overdue** from the day after the due date. The number of days overdue is counted from that day. An account that is more than 45 days overdue is suspended. Suspended accounts can be reconnected once the balance is paid and a reconnection fee of $25.00 is paid.
-
-If a customer disputes a charge, the disputed amount is not suspended for non-payment while the dispute is open, and the dispute must be raised within 60 days of the invoice date.
-
-## 6. Support and service levels
-
-Standard customer support is available Monday to Saturday from 08:00 to 20:00 local time and is closed on Sundays. Customers can contact support by phone or by raising a ticket.
-
-**Standard tickets** receive a first response within 2 business days.
-
-**Tech Support add-on customers** can use a priority phone line that is open 24 hours a day, 7 days a week. Their tickets receive a first response within 4 hours.
-
-**Technician visits.** A visit to a customer's premises normally costs $60.00. Customers with the Tech Support add-on get one visit free in each rolling 12 months, and further visits in the same period cost $60.00.
-
-**Device replacement.** Customers with Device Protection can have the Vantage-supplied router or modem replaced once in each rolling 12 months, paying a deductible of $25.00. Customers without Device Protection pay the full replacement price listed in the Service Terms.
-
-## 7. Retention program summary
-
-The retention program gives eligible customers a limited-time offer when they are at risk of leaving. This section summarizes the program. The Retention Policy (`retention_policy.pdf`) contains the full rules, and where it adds detail it does not change the figures here.
-
-| Offer | Name | Benefit | Duration | Who qualifies |
-| --- | --- | --- | --- | --- |
-| A | Loyalty credit | 10% retention discount | 3 billing months | Any account with a tenure of 6 months or more |
-| B | Upgrade incentive | 15% retention discount | 6 billing months | Month-to-month accounts that commit to a One year or Two year contract |
-| C | Service review | Free Tech Support add-on (worth $5.00 per month) | 3 billing months | Accounts that have internet service but no Tech Support |
-| D | Win-back | 20% retention discount | 6 billing months | Former customers who return within 30 days of cancelling and choose any contract |
-
-**Rules that apply to every offer.**
-
-- An account can receive at most one retention offer in any rolling 12 months.
-- The maximum retention discount is 20%. Retention discounts are added to the contract discount, and the combined percentage discount is capped at 25% as described in Section 4.
-- Any offer above 15% needs approval from a team lead. In practice this applies to Offer D only.
-- An account that is more than 30 days overdue is not eligible for any retention offer.
-- Percentage discounts last for at most 6 billing months. After that, the account reverts to its normal bill.
-- Offer C is not a percentage discount, so it does not count toward the 25% cap.
-
-Accounts that the analytics team's churn model flags as high risk should be reviewed for an offer. A risk flag prompts a review but does not oblige an agent to make an offer, and the final decision is made by the agent handling the customer.
-
-## 8. Observed customer base statistics (real data, computed)
-
-> **These statistics are real.** They were computed by a script from `telco-customer-churn.csv`, the Kaggle customer churn dataset, and are the only real figures in this sheet. They describe a historical sample. They show associations, not causes. The rules in Sections 3 and 7 were not derived from them, and no reader should conclude that a contract type, payment method or service makes customers leave.
-
-The file contains 7,043 customers. The overall churn rate is 26.5%. Monthly charges range from 18.25 to 118.75, with a median of 70.35. Tenure ranges from 0 to 72 months, with a median of 29 months.
-
-**Churn rate by contract type**
-
-| Contract | Customers | Churn rate |
+| Ticket priority | First response target | Resolution target |
 | --- | --- | --- |
-| Month-to-month | 3,875 | 42.7% |
-| One year | 1,473 | 11.3% |
-| Two year | 1,695 | 2.8% |
+| Urgent | 1 hour | 8 hours |
+| High | 4 hours | 24 hours |
+| Normal | 1 business day | 3 business days |
 
-**Churn rate by internet service**
+## Retention operations
 
-| InternetService | Customers | Churn rate |
-| --- | --- | --- |
-| DSL | 2,421 | 19.0% |
-| Fiber optic | 3,096 | 41.9% |
-| No | 1,526 | 7.4% |
+- The retention team contacts at-risk customers during support hours only.
 
-**Churn rate by payment method**
+- Each retention agent handles at most 25 outbound retention calls per day.
 
-| PaymentMethod | Customers | Churn rate |
-| --- | --- | --- |
-| Bank transfer (automatic) | 1,544 | 16.7% |
-| Credit card (automatic) | 1,522 | 15.2% |
-| Electronic check | 2,365 | 45.3% |
-| Mailed check | 1,612 | 19.1% |
+- The retention manager reviews all Critical tier offers within 1 business day.
 
-**Churn rate by paperless billing**
+## Lookup A. Internet and phone bundle totals
 
-| PaperlessBilling | Customers | Churn rate |
-| --- | --- | --- |
-| No | 2,872 | 16.3% |
-| Yes | 4,171 | 33.6% |
+Totals use list prices and the contract discount.
 
-**Churn rate by tech support**
+### Bundle total: DSL, 1 phone line, month-to-month, without automatic payment
 
-| TechSupport | Customers | Churn rate |
-| --- | --- | --- |
-| No | 3,473 | 41.6% |
-| No internet service | 1,526 | 7.4% |
-| Yes | 2,044 | 15.2% |
+DSL with 1 phone line on a month-to-month contract, without automatic payment: internet $25, phone $20, total $45 per month before add-ons and taxes.
 
-**Churn rate by senior citizen flag**
+### Bundle total: DSL, 1 phone line, month-to-month, paid by automatic payment
 
-| SeniorCitizen | Customers | Churn rate |
-| --- | --- | --- |
-| 0 | 5,901 | 23.6% |
-| 1 | 1,142 | 41.7% |
+DSL with 1 phone line on a month-to-month contract, paid by automatic payment: internet $25, phone $20, total $45, and after the $5 automatic payment credit it is $40 per month before add-ons and taxes.
 
-**Churn rate by tenure band**
+### Bundle total: DSL, 1 phone line, one year, without automatic payment
 
-| Tenure band (months) | Customers | Churn rate |
-| --- | --- | --- |
-| 0 to 12 | 2,186 | 47.4% |
-| 13 to 24 | 1,024 | 28.7% |
-| 25 to 48 | 1,594 | 20.4% |
-| 49 to 72 | 2,239 | 9.5% |
+DSL with 1 phone line on a one year contract, without automatic payment: internet $23.75, phone $20, total $43.75 per month before add-ons and taxes.
 
-Two points help readers avoid mistakes. First, the 1,526 customers with no internet service are the same customers in both the "No" row of the internet table and the "No internet service" row of the tech support table, which is why both show 7.4%. Second, the dataset describes customers who had left within the last month as churned, so the churn rate is a snapshot and not a yearly figure.
+### Bundle total: DSL, 1 phone line, one year, paid by automatic payment
 
-## 9. Glossary and field definitions
+DSL with 1 phone line on a one year contract, paid by automatic payment: internet $23.75, phone $20, total $43.75, and after the $5 automatic payment credit it is $38.75 per month before add-ons and taxes.
 
-- **customerID**: the unique customer identifier. It has the format of four digits, a hyphen, and five uppercase letters.
-- **Churn**: "Yes" if the customer left within the last month, otherwise "No".
-- **tenure**: the number of months the customer has been with the company.
-- **MonthlyCharges**: the amount currently charged to the customer each month.
-- **TotalCharges**: the total amount charged to the customer so far. In the raw file this value is blank for brand-new accounts with a tenure of 0.
-- **SeniorCitizen**: whether the customer is a senior citizen, stored as 0 for no and 1 for yes.
-- **List price total**: the sum of the list prices on an account before any discount (Section 4).
-- **Combined percentage discount**: the contract discount plus any retention discount, capped at 25% (Section 4).
-- **Overdue**: the state of an account that has not paid by the due date, counted in days from the day after the due date (Section 5).
-- **Rolling 12 months**: the 12 months immediately before the date in question, not the calendar year.
-- **Retention offer**: one of Offers A to D in Section 7.
+### Bundle total: DSL, 1 phone line, two year, without automatic payment
 
-## 10. Document control
+DSL with 1 phone line on a two year contract, without automatic payment: internet $22.50, phone $20, total $42.50 per month before add-ons and taxes.
 
-This is version 1.0 of the sheet, effective 2026-01-01. Changes to any price, discount or rule must be made in this sheet first and then copied into the other documents in the set. A change takes effect on the first day of the next billing cycle after it is published, and customers are notified at least 30 days before a price increase takes effect.
+### Bundle total: DSL, 1 phone line, two year, paid by automatic payment
+
+DSL with 1 phone line on a two year contract, paid by automatic payment: internet $22.50, phone $20, total $42.50, and after the $5 automatic payment credit it is $37.50 per month before add-ons and taxes.
+
+### Bundle total: DSL, 2 phone lines, month-to-month, without automatic payment
+
+DSL with 2 phone lines on a month-to-month contract, without automatic payment: internet $25, phone $25, total $50 per month before add-ons and taxes.
+
+### Bundle total: DSL, 2 phone lines, month-to-month, paid by automatic payment
+
+DSL with 2 phone lines on a month-to-month contract, paid by automatic payment: internet $25, phone $25, total $50, and after the $5 automatic payment credit it is $45 per month before add-ons and taxes.
+
+### Bundle total: DSL, 2 phone lines, one year, without automatic payment
+
+DSL with 2 phone lines on a one year contract, without automatic payment: internet $23.75, phone $25, total $48.75 per month before add-ons and taxes.
+
+### Bundle total: DSL, 2 phone lines, one year, paid by automatic payment
+
+DSL with 2 phone lines on a one year contract, paid by automatic payment: internet $23.75, phone $25, total $48.75, and after the $5 automatic payment credit it is $43.75 per month before add-ons and taxes.
+
+### Bundle total: DSL, 2 phone lines, two year, without automatic payment
+
+DSL with 2 phone lines on a two year contract, without automatic payment: internet $22.50, phone $25, total $47.50 per month before add-ons and taxes.
+
+### Bundle total: DSL, 2 phone lines, two year, paid by automatic payment
+
+DSL with 2 phone lines on a two year contract, paid by automatic payment: internet $22.50, phone $25, total $47.50, and after the $5 automatic payment credit it is $42.50 per month before add-ons and taxes.
+
+### Bundle total: DSL, 3 phone lines, month-to-month, without automatic payment
+
+DSL with 3 phone lines on a month-to-month contract, without automatic payment: internet $25, phone $30, total $55 per month before add-ons and taxes.
+
+### Bundle total: DSL, 3 phone lines, month-to-month, paid by automatic payment
+
+DSL with 3 phone lines on a month-to-month contract, paid by automatic payment: internet $25, phone $30, total $55, and after the $5 automatic payment credit it is $50 per month before add-ons and taxes.
+
+### Bundle total: DSL, 3 phone lines, one year, without automatic payment
+
+DSL with 3 phone lines on a one year contract, without automatic payment: internet $23.75, phone $30, total $53.75 per month before add-ons and taxes.
+
+### Bundle total: DSL, 3 phone lines, two year, without automatic payment
+
+DSL with 3 phone lines on a two year contract, without automatic payment: internet $22.50, phone $30, total $52.50 per month before add-ons and taxes.
+
+### Bundle total: DSL, 3 phone lines, two year, paid by automatic payment
+
+DSL with 3 phone lines on a two year contract, paid by automatic payment: internet $22.50, phone $30, total $52.50, and after the $5 automatic payment credit it is $47.50 per month before add-ons and taxes.
+
+### Bundle total: DSL, 4 phone lines, month-to-month, without automatic payment
+
+DSL with 4 phone lines on a month-to-month contract, without automatic payment: internet $25, phone $35, total $60 per month before add-ons and taxes.
+
+### Bundle total: DSL, 4 phone lines, month-to-month, paid by automatic payment
+
+DSL with 4 phone lines on a month-to-month contract, paid by automatic payment: internet $25, phone $35, total $60, and after the $5 automatic payment credit it is $55 per month before add-ons and taxes.
+
+### Bundle total: DSL, 4 phone lines, one year, without automatic payment
+
+DSL with 4 phone lines on a one year contract, without automatic payment: internet $23.75, phone $35, total $58.75 per month before add-ons and taxes.
+
+### Bundle total: DSL, 4 phone lines, one year, paid by automatic payment
+
+DSL with 4 phone lines on a one year contract, paid by automatic payment: internet $23.75, phone $35, total $58.75, and after the $5 automatic payment credit it is $53.75 per month before add-ons and taxes.
+
+### Bundle total: DSL, 4 phone lines, two year, without automatic payment
+
+DSL with 4 phone lines on a two year contract, without automatic payment: internet $22.50, phone $35, total $57.50 per month before add-ons and taxes.
+
+### Bundle total: DSL, 4 phone lines, two year, paid by automatic payment
+
+DSL with 4 phone lines on a two year contract, paid by automatic payment: internet $22.50, phone $35, total $57.50, and after the $5 automatic payment credit it is $52.50 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 1 phone line, month-to-month, without automatic payment
+
+Fiber optic with 1 phone line on a month-to-month contract, without automatic payment: internet $50, phone $20, total $70 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 1 phone line, month-to-month, paid by automatic payment
+
+Fiber optic with 1 phone line on a month-to-month contract, paid by automatic payment: internet $50, phone $20, total $70, and after the $5 automatic payment credit it is $65 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 1 phone line, one year, without automatic payment
+
+Fiber optic with 1 phone line on a one year contract, without automatic payment: internet $47.50, phone $20, total $67.50 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 1 phone line, one year, paid by automatic payment
+
+Fiber optic with 1 phone line on a one year contract, paid by automatic payment: internet $47.50, phone $20, total $67.50, and after the $5 automatic payment credit it is $62.50 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 1 phone line, two year, without automatic payment
+
+Fiber optic with 1 phone line on a two year contract, without automatic payment: internet $45, phone $20, total $65 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 1 phone line, two year, paid by automatic payment
+
+Fiber optic with 1 phone line on a two year contract, paid by automatic payment: internet $45, phone $20, total $65, and after the $5 automatic payment credit it is $60 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 2 phone lines, month-to-month, without automatic payment
+
+Fiber optic with 2 phone lines on a month-to-month contract, without automatic payment: internet $50, phone $25, total $75 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 2 phone lines, one year, without automatic payment
+
+Fiber optic with 2 phone lines on a one year contract, without automatic payment: internet $47.50, phone $25, total $72.50 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 2 phone lines, one year, paid by automatic payment
+
+Fiber optic with 2 phone lines on a one year contract, paid by automatic payment: internet $47.50, phone $25, total $72.50, and after the $5 automatic payment credit it is $67.50 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 2 phone lines, two year, without automatic payment
+
+Fiber optic with 2 phone lines on a two year contract, without automatic payment: internet $45, phone $25, total $70 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 2 phone lines, two year, paid by automatic payment
+
+Fiber optic with 2 phone lines on a two year contract, paid by automatic payment: internet $45, phone $25, total $70, and after the $5 automatic payment credit it is $65 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 3 phone lines, month-to-month, without automatic payment
+
+Fiber optic with 3 phone lines on a month-to-month contract, without automatic payment: internet $50, phone $30, total $80 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 3 phone lines, month-to-month, paid by automatic payment
+
+Fiber optic with 3 phone lines on a month-to-month contract, paid by automatic payment: internet $50, phone $30, total $80, and after the $5 automatic payment credit it is $75 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 3 phone lines, one year, without automatic payment
+
+Fiber optic with 3 phone lines on a one year contract, without automatic payment: internet $47.50, phone $30, total $77.50 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 3 phone lines, one year, paid by automatic payment
+
+Fiber optic with 3 phone lines on a one year contract, paid by automatic payment: internet $47.50, phone $30, total $77.50, and after the $5 automatic payment credit it is $72.50 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 3 phone lines, two year, without automatic payment
+
+Fiber optic with 3 phone lines on a two year contract, without automatic payment: internet $45, phone $30, total $75 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 3 phone lines, two year, paid by automatic payment
+
+Fiber optic with 3 phone lines on a two year contract, paid by automatic payment: internet $45, phone $30, total $75, and after the $5 automatic payment credit it is $70 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 4 phone lines, month-to-month, without automatic payment
+
+Fiber optic with 4 phone lines on a month-to-month contract, without automatic payment: internet $50, phone $35, total $85 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 4 phone lines, month-to-month, paid by automatic payment
+
+Fiber optic with 4 phone lines on a month-to-month contract, paid by automatic payment: internet $50, phone $35, total $85, and after the $5 automatic payment credit it is $80 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 4 phone lines, one year, without automatic payment
+
+Fiber optic with 4 phone lines on a one year contract, without automatic payment: internet $47.50, phone $35, total $82.50 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 4 phone lines, one year, paid by automatic payment
+
+Fiber optic with 4 phone lines on a one year contract, paid by automatic payment: internet $47.50, phone $35, total $82.50, and after the $5 automatic payment credit it is $77.50 per month before add-ons and taxes.
+
+### Bundle total: Fiber optic, 4 phone lines, two year, without automatic payment
+
+Fiber optic with 4 phone lines on a two year contract, without automatic payment: internet $45, phone $35, total $80 per month before add-ons and taxes.
+
+## Lookup B. Add-on pairs
+
+Add-on prices are never discounted.
+
+### Add-on pair: Online Security and Online Backup
+
+Online Security ($5) and Online Backup ($5) together cost $10 per month, or $120 per year.
+
+### Add-on pair: Online Security and Device Protection
+
+Online Security ($5) and Device Protection ($5) together cost $10 per month, or $120 per year.
+
+### Add-on pair: Online Security and Tech Support
+
+Online Security ($5) and Tech Support ($5) together cost $10 per month, or $120 per year.
+
+### Add-on pair: Online Security and Streaming TV
+
+Online Security ($5) and Streaming TV ($10) together cost $15 per month, or $180 per year.
+
+### Add-on pair: Online Security and Streaming Movies
+
+Online Security ($5) and Streaming Movies ($10) together cost $15 per month, or $180 per year.
+
+### Add-on pair: Online Backup and Device Protection
+
+Online Backup ($5) and Device Protection ($5) together cost $10 per month, or $120 per year.
+
+### Add-on pair: Online Backup and Tech Support
+
+Online Backup ($5) and Tech Support ($5) together cost $10 per month, or $120 per year.
+
+### Add-on pair: Online Backup and Streaming TV
+
+Online Backup ($5) and Streaming TV ($10) together cost $15 per month, or $180 per year.
+
+### Add-on pair: Online Backup and Streaming Movies
+
+Online Backup ($5) and Streaming Movies ($10) together cost $15 per month, or $180 per year.
+
+### Add-on pair: Device Protection and Tech Support
+
+Device Protection ($5) and Tech Support ($5) together cost $10 per month, or $120 per year.
+
+### Add-on pair: Device Protection and Streaming TV
+
+Device Protection ($5) and Streaming TV ($10) together cost $15 per month, or $180 per year.
+
+### Add-on pair: Device Protection and Streaming Movies
+
+Device Protection ($5) and Streaming Movies ($10) together cost $15 per month, or $180 per year.
+
+### Add-on pair: Tech Support and Streaming TV
+
+Tech Support ($5) and Streaming TV ($10) together cost $15 per month, or $180 per year.
+
+### Add-on pair: Tech Support and Streaming Movies
+
+Tech Support ($5) and Streaming Movies ($10) together cost $15 per month, or $180 per year.
+
+### Add-on pair: Streaming TV and Streaming Movies
+
+Streaming TV ($10) and Streaming Movies ($10) together cost $20 per month, or $240 per year.
+
+## Lookup C. Combined discount ceilings
+
+The combined ceiling never exceeds the 40 percent cap.
+
+### Discount ceiling: Low tier, month-to-month contract
+
+A customer on a month-to-month contract in the Low tier has a combined discount ceiling of 0% (0% contract plus 0% retention). On Fiber optic that is $50 per month before add-ons, phone lines and the automatic payment credit.
+
+### Discount ceiling: Low tier, one year contract
+
+A customer on a one year contract in the Low tier has a combined discount ceiling of 5% (5% contract plus 0% retention). On Fiber optic that is $47.50 per month before add-ons, phone lines and the automatic payment credit.
+
+### Discount ceiling: Low tier, two year contract
+
+A customer on a two year contract in the Low tier has a combined discount ceiling of 10% (10% contract plus 0% retention). On Fiber optic that is $45 per month before add-ons, phone lines and the automatic payment credit.
+
+### Discount ceiling: Medium tier, month-to-month contract
+
+A customer on a month-to-month contract in the Medium tier has a combined discount ceiling of 10% (0% contract plus 10% retention). On Fiber optic that is $45 per month before add-ons, phone lines and the automatic payment credit.
+
+### Discount ceiling: Medium tier, one year contract
+
+A customer on a one year contract in the Medium tier has a combined discount ceiling of 15% (5% contract plus 10% retention). On Fiber optic that is $42.50 per month before add-ons, phone lines and the automatic payment credit.
+
+### Discount ceiling: Medium tier, two year contract
+
+A customer on a two year contract in the Medium tier has a combined discount ceiling of 20% (10% contract plus 10% retention). On Fiber optic that is $40 per month before add-ons, phone lines and the automatic payment credit.
+
+### Discount ceiling: High tier, month-to-month contract
+
+A customer on a month-to-month contract in the High tier has a combined discount ceiling of 20% (0% contract plus 20% retention). On Fiber optic that is $40 per month before add-ons, phone lines and the automatic payment credit.
+
+### Discount ceiling: High tier, one year contract
+
+A customer on a one year contract in the High tier has a combined discount ceiling of 25% (5% contract plus 20% retention). On Fiber optic that is $37.50 per month before add-ons, phone lines and the automatic payment credit.
+
+### Discount ceiling: High tier, two year contract
+
+A customer on a two year contract in the High tier has a combined discount ceiling of 30% (10% contract plus 20% retention). On Fiber optic that is $35 per month before add-ons, phone lines and the automatic payment credit.
+
+### Discount ceiling: Critical tier, month-to-month contract
+
+A customer on a month-to-month contract in the Critical tier has a combined discount ceiling of 30% (0% contract plus 30% retention). On Fiber optic that is $35 per month before add-ons, phone lines and the automatic payment credit.
+
+### Discount ceiling: Critical tier, one year contract
+
+A customer on a one year contract in the Critical tier has a combined discount ceiling of 35% (5% contract plus 30% retention). On Fiber optic that is $32.50 per month before add-ons, phone lines and the automatic payment credit.
+
+### Discount ceiling: Critical tier, two year contract
+
+A customer on a two year contract in the Critical tier has a combined discount ceiling of 40% (10% contract plus 30% retention). On Fiber optic that is $30 per month before add-ons, phone lines and the automatic payment credit.
+
+## Lookup D. Retention team capacity
+
+Capacity is agents times the daily call limit.
+
+### Retention capacity: 1 agent
+
+A retention team of 1 agent can make at most 25 outbound retention calls per day.
+
+### Retention capacity: 2 agents
+
+A retention team of 2 agents can make at most 50 outbound retention calls per day.
+
+### Retention capacity: 3 agents
+
+A retention team of 3 agents can make at most 75 outbound retention calls per day.
+
+### Retention capacity: 4 agents
+
+A retention team of 4 agents can make at most 100 outbound retention calls per day.
+
+### Retention capacity: 5 agents
+
+A retention team of 5 agents can make at most 125 outbound retention calls per day.
+
+### Retention capacity: 6 agents
+
+A retention team of 6 agents can make at most 150 outbound retention calls per day.
+
+### Retention capacity: 7 agents
+
+A retention team of 7 agents can make at most 175 outbound retention calls per day.
+
+### Retention capacity: 8 agents
+
+A retention team of 8 agents can make at most 200 outbound retention calls per day.
+
+### Retention capacity: 9 agents
+
+A retention team of 9 agents can make at most 225 outbound retention calls per day.
+
+### Retention capacity: 10 agents
+
+A retention team of 10 agents can make at most 250 outbound retention calls per day.
+
+### Retention capacity: 11 agents
+
+A retention team of 11 agents can make at most 275 outbound retention calls per day.
+
+### Retention capacity: 12 agents
+
+A retention team of 12 agents can make at most 300 outbound retention calls per day.
+
+### Retention capacity: 13 agents
+
+A retention team of 13 agents can make at most 325 outbound retention calls per day.
+
+### Retention capacity: 14 agents
+
+A retention team of 14 agents can make at most 350 outbound retention calls per day.
+
+### Retention capacity: 15 agents
+
+A retention team of 15 agents can make at most 375 outbound retention calls per day.
+
+### Retention capacity: 16 agents
+
+A retention team of 16 agents can make at most 400 outbound retention calls per day.
+
+### Retention capacity: 17 agents
+
+A retention team of 17 agents can make at most 425 outbound retention calls per day.
+
+### Retention capacity: 18 agents
+
+A retention team of 18 agents can make at most 450 outbound retention calls per day.
+
+### Retention capacity: 19 agents
+
+A retention team of 19 agents can make at most 475 outbound retention calls per day.
+
+### Retention capacity: 20 agents
+
+A retention team of 20 agents can make at most 500 outbound retention calls per day.
+
+## Lookup E. First response deadlines
+
+Only support hours count toward the target.
+
+### Deadline: Urgent ticket opened at 8:00
+
+An Urgent ticket opened at 8:00 must have a first response by 9:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 9:00
+
+An Urgent ticket opened at 9:00 must have a first response by 10:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 10:00
+
+An Urgent ticket opened at 10:00 must have a first response by 11:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 11:00
+
+An Urgent ticket opened at 11:00 must have a first response by 12:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 12:00
+
+An Urgent ticket opened at 12:00 must have a first response by 13:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 13:00
+
+An Urgent ticket opened at 13:00 must have a first response by 14:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 14:00
+
+An Urgent ticket opened at 14:00 must have a first response by 15:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 15:00
+
+An Urgent ticket opened at 15:00 must have a first response by 16:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 16:00
+
+An Urgent ticket opened at 16:00 must have a first response by 17:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 17:00
+
+An Urgent ticket opened at 17:00 must have a first response by 18:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 18:00
+
+An Urgent ticket opened at 18:00 must have a first response by 19:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 19:00
+
+An Urgent ticket opened at 19:00 must have a first response by 20:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 20:00
+
+An Urgent ticket opened at 20:00 must have a first response by 21:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: Urgent ticket opened at 21:00
+
+An Urgent ticket opened at 21:00 must have a first response by 22:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 8:00
+
+A High ticket opened at 8:00 must have a first response by 12:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 9:00
+
+A High ticket opened at 9:00 must have a first response by 13:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 10:00
+
+A High ticket opened at 10:00 must have a first response by 14:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 11:00
+
+A High ticket opened at 11:00 must have a first response by 15:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 12:00
+
+A High ticket opened at 12:00 must have a first response by 16:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 13:00
+
+A High ticket opened at 13:00 must have a first response by 17:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 14:00
+
+A High ticket opened at 14:00 must have a first response by 18:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 15:00
+
+A High ticket opened at 15:00 must have a first response by 19:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 16:00
+
+A High ticket opened at 16:00 must have a first response by 20:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 17:00
+
+A High ticket opened at 17:00 must have a first response by 21:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 18:00
+
+A High ticket opened at 18:00 must have a first response by 22:00 the same day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 19:00
+
+A High ticket opened at 19:00 must have a first response by 9:00 the next day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 20:00
+
+A High ticket opened at 20:00 must have a first response by 10:00 the next day. Support hours count only between 8:00 and 22:00.
+
+### Deadline: High ticket opened at 21:00
+
+A High ticket opened at 21:00 must have a first response by 11:00 the next day. Support hours count only between 8:00 and 22:00.
+
+## Lookup F. Plan plus add-on pair totals
+
+Totals use list prices, the contract discount and add-on prices.
+
+### Plan plus add-ons: DSL, month-to-month, Online Security and Online Backup
+
+DSL on a month-to-month contract with Online Security and Online Backup: internet $25, add-ons $10, total $35 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, month-to-month, Online Security and Tech Support
+
+DSL on a month-to-month contract with Online Security and Tech Support: internet $25, add-ons $10, total $35 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, month-to-month, Online Security and Streaming Movies
+
+DSL on a month-to-month contract with Online Security and Streaming Movies: internet $25, add-ons $15, total $40 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, month-to-month, Online Backup and Tech Support
+
+DSL on a month-to-month contract with Online Backup and Tech Support: internet $25, add-ons $10, total $35 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, month-to-month, Online Backup and Streaming Movies
+
+DSL on a month-to-month contract with Online Backup and Streaming Movies: internet $25, add-ons $15, total $40 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, month-to-month, Device Protection and Streaming TV
+
+DSL on a month-to-month contract with Device Protection and Streaming TV: internet $25, add-ons $15, total $40 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, month-to-month, Tech Support and Streaming TV
+
+DSL on a month-to-month contract with Tech Support and Streaming TV: internet $25, add-ons $15, total $40 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, month-to-month, Streaming TV and Streaming Movies
+
+DSL on a month-to-month contract with Streaming TV and Streaming Movies: internet $25, add-ons $20, total $45 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, one year, Online Security and Device Protection
+
+DSL on a one year contract with Online Security and Device Protection: internet $23.75, add-ons $10, total $33.75 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, one year, Online Security and Streaming TV
+
+DSL on a one year contract with Online Security and Streaming TV: internet $23.75, add-ons $15, total $38.75 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, one year, Online Backup and Device Protection
+
+DSL on a one year contract with Online Backup and Device Protection: internet $23.75, add-ons $10, total $33.75 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, one year, Online Backup and Streaming TV
+
+DSL on a one year contract with Online Backup and Streaming TV: internet $23.75, add-ons $15, total $38.75 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, one year, Device Protection and Tech Support
+
+DSL on a one year contract with Device Protection and Tech Support: internet $23.75, add-ons $10, total $33.75 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, one year, Device Protection and Streaming Movies
+
+DSL on a one year contract with Device Protection and Streaming Movies: internet $23.75, add-ons $15, total $38.75 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, one year, Tech Support and Streaming Movies
+
+DSL on a one year contract with Tech Support and Streaming Movies: internet $23.75, add-ons $15, total $38.75 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, two year, Online Security and Online Backup
+
+DSL on a two year contract with Online Security and Online Backup: internet $22.50, add-ons $10, total $32.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, two year, Online Security and Tech Support
+
+DSL on a two year contract with Online Security and Tech Support: internet $22.50, add-ons $10, total $32.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, two year, Online Security and Streaming Movies
+
+DSL on a two year contract with Online Security and Streaming Movies: internet $22.50, add-ons $15, total $37.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, two year, Online Backup and Tech Support
+
+DSL on a two year contract with Online Backup and Tech Support: internet $22.50, add-ons $10, total $32.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, two year, Online Backup and Streaming Movies
+
+DSL on a two year contract with Online Backup and Streaming Movies: internet $22.50, add-ons $15, total $37.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, two year, Device Protection and Streaming TV
+
+DSL on a two year contract with Device Protection and Streaming TV: internet $22.50, add-ons $15, total $37.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, two year, Tech Support and Streaming TV
+
+DSL on a two year contract with Tech Support and Streaming TV: internet $22.50, add-ons $15, total $37.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: DSL, two year, Streaming TV and Streaming Movies
+
+DSL on a two year contract with Streaming TV and Streaming Movies: internet $22.50, add-ons $20, total $42.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, month-to-month, Online Security and Device Protection
+
+Fiber optic on a month-to-month contract with Online Security and Device Protection: internet $50, add-ons $10, total $60 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, month-to-month, Online Security and Streaming TV
+
+Fiber optic on a month-to-month contract with Online Security and Streaming TV: internet $50, add-ons $15, total $65 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, month-to-month, Online Backup and Device Protection
+
+Fiber optic on a month-to-month contract with Online Backup and Device Protection: internet $50, add-ons $10, total $60 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, month-to-month, Online Backup and Streaming TV
+
+Fiber optic on a month-to-month contract with Online Backup and Streaming TV: internet $50, add-ons $15, total $65 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, month-to-month, Device Protection and Tech Support
+
+Fiber optic on a month-to-month contract with Device Protection and Tech Support: internet $50, add-ons $10, total $60 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, month-to-month, Device Protection and Streaming Movies
+
+Fiber optic on a month-to-month contract with Device Protection and Streaming Movies: internet $50, add-ons $15, total $65 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, month-to-month, Tech Support and Streaming Movies
+
+Fiber optic on a month-to-month contract with Tech Support and Streaming Movies: internet $50, add-ons $15, total $65 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, one year, Online Security and Online Backup
+
+Fiber optic on a one year contract with Online Security and Online Backup: internet $47.50, add-ons $10, total $57.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, one year, Online Security and Tech Support
+
+Fiber optic on a one year contract with Online Security and Tech Support: internet $47.50, add-ons $10, total $57.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, one year, Online Security and Streaming Movies
+
+Fiber optic on a one year contract with Online Security and Streaming Movies: internet $47.50, add-ons $15, total $62.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, one year, Online Backup and Tech Support
+
+Fiber optic on a one year contract with Online Backup and Tech Support: internet $47.50, add-ons $10, total $57.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, one year, Online Backup and Streaming Movies
+
+Fiber optic on a one year contract with Online Backup and Streaming Movies: internet $47.50, add-ons $15, total $62.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, one year, Device Protection and Streaming TV
+
+Fiber optic on a one year contract with Device Protection and Streaming TV: internet $47.50, add-ons $15, total $62.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, one year, Tech Support and Streaming TV
+
+Fiber optic on a one year contract with Tech Support and Streaming TV: internet $47.50, add-ons $15, total $62.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, one year, Streaming TV and Streaming Movies
+
+Fiber optic on a one year contract with Streaming TV and Streaming Movies: internet $47.50, add-ons $20, total $67.50 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, two year, Online Security and Device Protection
+
+Fiber optic on a two year contract with Online Security and Device Protection: internet $45, add-ons $10, total $55 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, two year, Online Security and Streaming TV
+
+Fiber optic on a two year contract with Online Security and Streaming TV: internet $45, add-ons $15, total $60 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, two year, Online Backup and Device Protection
+
+Fiber optic on a two year contract with Online Backup and Device Protection: internet $45, add-ons $10, total $55 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, two year, Online Backup and Streaming TV
+
+Fiber optic on a two year contract with Online Backup and Streaming TV: internet $45, add-ons $15, total $60 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, two year, Device Protection and Tech Support
+
+Fiber optic on a two year contract with Device Protection and Tech Support: internet $45, add-ons $10, total $55 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, two year, Device Protection and Streaming Movies
+
+Fiber optic on a two year contract with Device Protection and Streaming Movies: internet $45, add-ons $15, total $60 per month before phone lines, the automatic payment credit and taxes.
+
+### Plan plus add-ons: Fiber optic, two year, Tech Support and Streaming Movies
+
+Fiber optic on a two year contract with Tech Support and Streaming Movies: internet $45, add-ons $15, total $60 per month before phone lines, the automatic payment credit and taxes.
