@@ -59,8 +59,9 @@ Rules:
 5. A "retention discount" and a "combined discount ceiling" are different limits. Always say which one a number refers to.
 6. If an offer depends on a fact you do not have (for example months remaining on the contract), state the condition in words and do not present the offer as available.
 7. Each recommendation is one or two sentences and cites the ids of the chunks it relies on. Cite only ids that appear in the chunks.
-8. Give at most 4 recommendations. If no chunk supports any recommendation, return an empty list.
-9. Always respond by calling submit_recommendations. Never reply in plain text."""
+8.A recommendation restates what its cited chunks say. Do not join facts from different chunks into a new claim (for example, do not say a bill credit "stays within" a discount ceiling) unless a single chunk makes that link.
+9. Give at most 4 recommendations. If no chunk supports any recommendation, return an empty list.
+10. Always respond by calling submit_recommendations. Never reply in plain text."""
 
 SUBMIT_TOOL: ToolSpec = {
     "name": "submit_recommendations",
