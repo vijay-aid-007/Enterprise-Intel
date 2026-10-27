@@ -18,12 +18,12 @@ Report status: **complete**
 
 ## 2. Recommended retention actions (from documents)
 
-1. Offer a retention discount of 10% off the internet plan list price for 3 months, which is within the allowed retention discount for a Medium-tier, one-year customer.
+1. Offer a 10% retention discount on the internet plan for 3 months.
    - Source `retention_policy-0011`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Medium tier, One year customer, page: 2)
-2. Note that the combined discount ceiling for this tier and contract is 15% (5% contract discount plus the 10% retention discount).
+2. If the customer agrees to a two-year renewal, provide a one-time $75 bill credit.
+   - Source `retention_policy-0011`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Medium tier, One year customer, page: 2)
+3. Ensure that the total discount (contract plus retention) does not exceed the combined discount ceiling of 15%.
    - Source `facts_sheet-0071`: facts_sheet.md (section: Brightline Telecom - Facts Sheet > Lookup C. Combined discount ceilings > Discount ceiling: Medium tier, one year contract)
-3. If the customer agrees to renew for two years, provide a one-time $75 bill credit as an additional incentive.
-   - Source `retention_policy-0011`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Medium tier, One year customer, page: 2)
 
 ## 3. Withheld by validation (unsupported, omitted from section 2)
 

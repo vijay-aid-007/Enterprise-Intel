@@ -18,10 +18,9 @@ Report status: **complete**
 
 ## 2. Recommended retention actions (from documents)
 
-1. Offer a retention discount of 20% off the internet plan list price for 6 months, which matches the 20% combined discount ceiling for a High-tier month-to-month customer.
+1. Offer a retention discount of 20% off the internet plan list price for 6 months (requires team lead approval).
    - Source `retention_policy-0013`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > High tier, Month-to-month customer, page: 2)
-   - Source `facts_sheet-0073`: facts_sheet.md (section: Brightline Telecom - Facts Sheet > Lookup C. Combined discount ceilings > Discount ceiling: High tier, month-to-month contract)
-2. Provide a one-time $50 bill credit if the customer agrees to move to a one-year contract.
+2. If the customer agrees to switch to a one-year contract, offer a one-time $50 bill credit.
    - Source `retention_policy-0013`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > High tier, Month-to-month customer, page: 2)
 
 ## 3. Withheld by validation (unsupported, omitted from section 2)

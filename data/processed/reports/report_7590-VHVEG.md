@@ -18,10 +18,11 @@ Report status: **complete**
 
 ## 2. Recommended retention actions (from documents)
 
-1. Offer a retention discount of up to 30% of the DSL plan list price for 6 months, noting that this exceeds 20% and therefore requires manager approval and recording of the approver's name.
+1. Offer a retention discount of up to 30% of the internet plan list price for 6 months, which requires approval from the retention manager and logging the approver's name because the discount exceeds 20%.
    - Source `retention_policy-0016`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Critical tier, Month-to-month customer, page: 3)
-2. Inform the customer that a one-time $50 bill credit is available if they agree to switch from the month-to-month DSL contract to a one-year contract, which stays within the combined discount ceiling of 30%.
+2. Provide a one-time $50 bill credit if the customer agrees to move to a one-year contract.
    - Source `retention_policy-0016`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Critical tier, Month-to-month customer, page: 3)
+3. Ensure that any combined discounts applied do not exceed the combined discount ceiling of 30% for a Critical tier month-to-month customer.
    - Source `facts_sheet-0076`: facts_sheet.md (section: Brightline Telecom - Facts Sheet > Lookup C. Combined discount ceilings > Discount ceiling: Critical tier, month-to-month contract)
 
 ## 3. Withheld by validation (unsupported, omitted from section 2)

@@ -18,12 +18,14 @@ Report status: **complete**
 
 ## 2. Recommended retention actions (from documents)
 
-1. Make a courtesy call and offer a 12-month price lock.
+1. Make a courtesy call to the customer.
    - Source `retention_policy-0008`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Low tier, One year customer, page: 2)
-2. If the customer agrees to a two-year renewal, offer a one-time $75 bill credit.
+2. Offer the customer a 12-month price lock.
    - Source `retention_policy-0008`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Low tier, One year customer, page: 2)
-3. Any discount provided must stay within the combined discount ceiling of 5% for Low tier, one-year contracts.
-   - Source `facts_sheet-0068`: facts_sheet.md (section: Brightline Telecom - Facts Sheet > Lookup C. Combined discount ceilings > Discount ceiling: Low tier, one year contract)
+3. Offer a one-time $75 bill credit if the customer agrees to renew for two years.
+   - Source `retention_policy-0008`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Low tier, One year customer, page: 2)
+4. Log the ticket ID, tier, discount and duration.
+   - Source `retention_policy-0008`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Low tier, One year customer, page: 2)
 
 ## 3. Withheld by validation (unsupported, omitted from section 2)
 

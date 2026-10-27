@@ -45,6 +45,7 @@ class ToolContext:
     report_fn: ReportFn | None = None
     chunks: dict[str, dict[str, Any]] = field(default_factory=dict)  # every chunk the model has been shown
     computed: list[str] = field(default_factory=list)  # output of code-computed tools (trusted numbers)
+    searches : int = 0
 
     def get_frame(self) -> pd.DataFrame:
         """The customer table, loaded once per question."""
@@ -68,6 +69,12 @@ def search_documents(args: dict[str, Any], ctx: ToolContext) -> str:
     k = args.get("k", config.GEN_K)
     if isinstance(k, bool) or not isinstance(k, int) or not 1 <= k <= config.AGENT_SEARCH_MAX_K:
         raise ToolError(f"'k' must be an integer from 1 to {config.AGENT_SEARCH_MAX_K}")
+    if ctx.searches >= config.AGENT_MAX_SEARCHES:
+        raise ToolError(
+            f"document search limit ({config.AGENT_MAX_SEARCHES}) reached; answer from the excerpts you "
+            "already have, or call final_answer with can_answer=false and say what is missing"
+        )
+    ctx.searches += 1
     chunks, evidence = ctx.retriever(query, k, mode=None, doc_types=config.GEN_DOC_TYPES)
     if not chunks:
         return (
