@@ -120,11 +120,11 @@ class Report:
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
-
 def _clean(text: str) -> str:
     """Replace narrow/no-break spaces the model sometimes emits."""
     return text.translate(_ODD_CHARS).strip()
 
+normalize_text = _clean  # public name for other modules (API answers), same normalisation as reports
 
 def build_user_message(
     profile: dict[str, str], tier: str, drivers: list[dict[str, Any]], chunks: list[dict[str, Any]]

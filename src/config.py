@@ -105,3 +105,9 @@ AGENT_MAX_ROWS: int = 20            # groups returned by analyze_data
 AGENT_MAX_FILTERS: int = 5
 AGENT_CALC_MAX_CHARS: int = 100
 AGENT_SEARCH_MAX_K: int = 5
+
+# ---------------------------------------------------------------- API (Step 7)
+API_HOST: str = "127.0.0.1"
+API_PORT: int = 8000
+API_MAX_QUESTION_CHARS: int = 500
+API_MAX_K: int = 8
