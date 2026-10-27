@@ -248,3 +248,23 @@ def test_rate_limit_wait_parses_groq_message() -> None:
     msg = "Error code: 429 - {'error': {'code': 'rate_limit_exceeded', 'message': 'Please try again in 1.297499999s.'}}"
     assert _rate_limit_wait(RuntimeError(msg)) == pytest.approx(2.3, abs=0.01)
     assert _rate_limit_wait(RuntimeError("Error code: 400 - tool_use_failed")) is None
+
+class _SdkError(RuntimeError):
+    """Stands in for the Groq SDK error, which carries the parsed response body as .body."""
+
+    def __init__(self, body) -> None:
+        super().__init__("400")
+        self.body = body
+
+
+def test_recover_tool_call_from_failed_generation() -> None:
+    from src.llm.client import _recover_tool_call
+
+    specs = [{"name": "final_answer", "description": "", "parameters": {}}]
+    nested = _SdkError({"error": {"failed_generation": '{"answer": "ok", "citations": [], "can_answer": true}'}})
+    call = _recover_tool_call(nested, specs, "final_answer")
+    assert call is not None and call.name == "final_answer" and call.arguments["answer"] == "ok"
+    named = _SdkError({"failed_generation": '{"name": "search_documents", "arguments": {"query": "x"}}'})
+    assert _recover_tool_call(named, specs, "final_answer") is None  # tool was not offered
+    assert _recover_tool_call(_SdkError({"failed_generation": "not json"}), specs, None) is None
+    assert _recover_tool_call(RuntimeError("no body"), specs, None) is None
