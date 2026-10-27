@@ -172,3 +172,95 @@ def test_driver_queries_zero_limit_disables_them() -> None:
 def test_heading_query_copies_playbook_heading() -> None:
     from src.llm.report_evidence import heading_query
     assert heading_query("Low", "One year") == "Appendix A. Playbook by tier and contract > Low tier, One year customer"
+
+
+UNRELATED = {
+    "chunk_id": "t-0003", "source": "plans_pricing_guide.docx", "score": 0.5, "location": {},
+    "text": "The automatic payment credit is $5 per month.",
+}
+WRONG_PROFILE = {"text": "A 30% discount applies.", "citations": ["t-0002"]}
+LOW = {
+    "chunk_id": "t-0004", "source": "facts_sheet.md", "score": 0.7, "location": {},
+    "text": "A customer on a month-to-month contract in the Low tier has a combined discount ceiling "
+    "of 0% (0% contract plus 0% retention).",
+}
+
+
+@needs_csv
+def test_happy_path_validates_filters_and_withholds() -> None:
+    client = FakeClient(items=[GOOD, BAD_NUMBER, WRONG_PROFILE])
+    report = build_report("7590-VHVEG", client, predictor=fake_predictor, retriever=make_retriever([EXACT, OFF]))
+    assert report.tier == "Critical" and report.status == "partial"
+    assert [r.citations for r in report.recommendations] == [["t-0001"]]
+    assert len(report.withheld) == 2
+    assert [c["chunk_id"] for c in report.evidence] == ["t-0001"]
+    assert any("t-0002" in n for n in report.notes) and any("SYNTHETIC" in n for n in report.notes)
+    assert client.calls == 1
+
+
+@needs_csv
+def test_no_exact_playbook_chunk_skips_llm() -> None:
+    client = FakeClient(items=[GOOD])
+    report = build_report("7590-VHVEG", client, predictor=fake_predictor, retriever=make_retriever([UNRELATED]))
+    assert client.calls == 0 and report.status == "no_playbook_evidence"
+    assert any("No retrieved chunk" in n for n in report.notes)
+
+
+@needs_csv
+def test_llm_error_degrades_to_report_without_recommendations() -> None:
+    client = FakeClient(error=LLMError("boom"))
+    report = build_report("7590-VHVEG", client, predictor=fake_predictor, retriever=make_retriever([EXACT]))
+    assert report.status == "llm_error" and report.prediction["prob"] == 0.85
+    assert any("failed" in n for n in report.notes)
+
+
+@needs_csv
+def test_unknown_customer_fails_before_predictor() -> None:
+    from src.llm.report_evidence import UnknownCustomerError
+
+    def boom(_: str) -> dict:
+        raise AssertionError("predictor must not run for unknown ids")
+
+    with pytest.raises(UnknownCustomerError):
+        build_report("NOPE-0000", FakeClient(), predictor=boom, retriever=make_retriever([]))
+
+
+@needs_csv
+def test_write_report_is_utf8_markdown(tmp_path) -> None:
+    client = FakeClient(items=[GOOD, BAD_NUMBER])
+    report = build_report("7590-VHVEG", client, predictor=fake_predictor, retriever=make_retriever([EXACT]))
+    path = write_report(report, tmp_path)
+    content = path.read_text(encoding="utf-8")
+    assert path.name == "report_7590-VHVEG.md"
+    assert "Withheld by validation" in content and "Offer a 45% discount." in content
+    assert "`t-0001`" in content
+
+
+def test_clean_normalizes_hyphens_and_spaces() -> None:
+    from src.llm.report import _clean
+
+    assert _clean("one\u2011time\u202f$50 retention\u2011manager") == "one-time $50 retention-manager"
+
+
+def test_ceiling_query_mimics_lookup_heading() -> None:
+    from src.llm.report_evidence import ceiling_query
+
+    assert "Low tier, one year contract" in ceiling_query("Low", "One year")
+
+
+@needs_csv
+def test_low_tier_uses_lookup_chunk_and_calls_llm() -> None:
+    def low_predictor(_: str) -> dict:
+        return {"prob": 0.05, "label": "no_churn", "top_drivers": []}
+
+    rec = {"text": "The facts sheet states a combined discount ceiling of 0%.", "citations": ["t-0004"]}
+    client = FakeClient(items=[rec])
+    report = build_report("7590-VHVEG", client, predictor=low_predictor, retriever=make_retriever([LOW]))
+    assert report.tier == "Low" and report.status == "complete" and client.calls == 1
+
+
+@pytest.mark.skipif(os.environ.get("RUN_LIVE_LLM") != "1", reason="manual live smoke test")
+def test_live_report_for_real_customer(tmp_path) -> None:
+    report = build_report("7590-VHVEG")
+    assert report.status in REPORT_STATUSES
+    assert write_report(report, tmp_path).exists()

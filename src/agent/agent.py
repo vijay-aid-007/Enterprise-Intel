@@ -58,7 +58,8 @@ Rules:
 5. A retention discount and a combined discount ceiling are different limits; say which one a number refers to.
 6. If a tool returns an error, fix the arguments once. If it still fails, or the documents do not contain the answer, call final_answer with can_answer=false and say what is missing.
 7. In final_answer, list in "citations" the ids of the document chunks you relied on (ids in chunk tags or in report recommendations). Answers based only on analyze_data or calculate need no citations.
-8. In final_answer, use only numbers that appear in the question or in tool results. Do not show intermediate arithmetic such as "(100% - 40%) = 60%"; give the inputs from the question and the tool's result."""
+8. Do not repeat a search whose results lacked the answer. After two document searches that do not contain it, call final_answer with can_answer=false and say what is missing.
+9. In final_answer, use only numbers that appear in the question or in tool results. Do not show intermediate arithmetic such as "(100% - 40%) = 60%"; give the inputs from the question and the tool's result."""
 
 
 FINAL_TOOL: ToolSpec = {
