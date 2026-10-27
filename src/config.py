@@ -111,3 +111,7 @@ API_HOST: str = "127.0.0.1"
 API_PORT: int = 8000
 API_MAX_QUESTION_CHARS: int = 500
 API_MAX_K: int = 8
+
+# ---------------------------------------------------------------- UI (Step 8)
+UI_FAST_TIMEOUT_S: float = 30.0    # /health and /predict
+UI_SLOW_TIMEOUT_S: float = 240.0   # /ask, /agent, /report: first call loads the embedder; Groq 429 retries wait

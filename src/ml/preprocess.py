@@ -92,7 +92,6 @@ def get_target(df: pd.DataFrame) -> pd.Series:
     """Binary target: 1 = churned, 0 = stayed."""
     return (df[config.TARGET_COL] == "Yes").astype(int)
 
-
 def build_preprocessor(engineer: bool = True) -> ColumnTransformer:
     """Unfitted preprocessor; fit it only on training data (inside a Pipeline)."""
     numeric = BASE_NUMERIC + (ENGINEERED_NUMERIC if engineer else [])
@@ -107,7 +106,6 @@ def build_preprocessor(engineer: bool = True) -> ColumnTransformer:
         [("num", numeric_pipe, numeric), ("cat", categorical_enc, CATEGORICAL)],
         verbose_feature_names_out=False,
     )
-
 
 def make_splits(df: pd.DataFrame, write: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Stratified train/test split; optionally record which IDs are in which set."""
@@ -129,14 +127,12 @@ def make_splits(df: pd.DataFrame, write: bool = True) -> tuple[pd.DataFrame, pd.
         logger.info("Wrote split IDs to %s", config.SPLIT_IDS_JSON)
     return train_df, test_df
 
-
 def prepare_data(
     engineer: bool = True, write: bool = True
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Load, clean, engineer, split. Returns (train_df, test_df) with ID and target kept."""
     cleaned = clean_and_engineer(load_raw(), engineer=engineer)
     return make_splits(cleaned, write=write)
-
 
 def main() -> None:
     """CLI check: build the splits and prove the preprocessor fits and transforms."""
@@ -155,7 +151,6 @@ def main() -> None:
     train_matrix = prep.fit_transform(x_train)  # fit on TRAIN only
     test_matrix = prep.transform(get_features(test_df))
     print("Transformed shapes:", train_matrix.shape, test_matrix.shape)
-
 
 if __name__ == "__main__":
     main()
