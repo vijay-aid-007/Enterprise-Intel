@@ -83,6 +83,36 @@ def _rate_limit_wait(exc: Exception) -> float | None:
         seconds = float(match.group(1)) / (1000 if match.group(2).lower() == "ms" else 1)
     return min(max(seconds + 1.0, 2.0), config.LLM_RATE_MAX_WAIT_S)        
 
+def _recover_tool_call(
+    exc: Exception, tools: list[ToolSpec] | None, force_tool: str | None
+) -> ToolCall | None:
+    """Rebuild a tool call from Groq's 400 'tool_use_failed' error, or return None.
+
+    Seen live: the model wrote the final_answer arguments as plain JSON, Groq rejected the turn and
+    put the text in 'failed_generation'. Only tools offered in this request are accepted, and the
+    caller validates the arguments like any other tool call.
+    """
+    body = getattr(exc, "body", None)
+    if isinstance(body, dict) and isinstance(body.get("error"), dict):
+        body = body["error"]
+    raw = body.get("failed_generation") if isinstance(body, dict) else None
+    if not isinstance(raw, str):
+        return None
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(data, dict):
+        return None
+    if isinstance(data.get("name"), str) and isinstance(data.get("arguments"), dict):
+        name, arguments = data["name"], data["arguments"]
+    elif force_tool:
+        name, arguments = force_tool, data
+    else:
+        return None
+    if name not in {t["name"] for t in tools or []}:
+        return None
+    return ToolCall("recovered-1", name, arguments)
 
 class GroqClient:
     """Thin adapter over the Groq SDK."""
@@ -126,6 +156,11 @@ class GroqClient:
                 break
             except Exception as exc:  # SDK raises many exception types; normalise to one
                 wait = _rate_limit_wait(exc)
+                if wait is None:
+                    recovered = _recover_tool_call(exc, tools, force_tool)
+                    if recovered is not None:
+                        logger.warning("Recovered tool call '%s' form a Groq tool_use_failed_error", recovered.name)
+                        return LLMResponse(text="", tool_calls=[recovered])
                 if wait is None or attempt == config.LLM_RATE_RETRIES:
                     raise LLMError(f"Groq call failed: {exc}") from exc
                 logger.warning("Groq rate limit; waiting %.1fs (retry %d)", wait, attempt + 1)
