@@ -116,3 +116,9 @@ API_MAX_K: int = 8
 # ---------------------------------------------------------------- UI (Step 8)
 UI_FAST_TIMEOUT_S: float = 30.0    # /health and /predict
 UI_SLOW_TIMEOUT_S: float = 240.0   # /ask, /agent, /report: first call loads the embedder; Groq 429 retries wait
+
+# ---------------------------------------------------------------- Eval (Step 9)
+GOLD_JSON: Path = EVAL_DIR / "gold_questions.json"
+EVAL_KS: tuple[int, ...] = (1, 3, 5)
+EVAL_MAX_RANK: int = 10
+EVAL_SWEEP: tuple[float, ...] = (0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50)  # DENSE_MIN_SIM candidates

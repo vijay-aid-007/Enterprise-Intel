@@ -268,3 +268,10 @@ def test_recover_tool_call_from_failed_generation() -> None:
     assert _recover_tool_call(named, specs, "final_answer") is None  # tool was not offered
     assert _recover_tool_call(_SdkError({"failed_generation": "not json"}), specs, None) is None
     assert _recover_tool_call(RuntimeError("no body"), specs, None) is None
+
+def test_search_limit_returns_error_message(monkeypatch) -> None:
+    monkeypatch.setattr(config, "AGENT_MAX_SEARCHES", 2)
+    ctx = make_ctx(retriever=fake_retriever([CHUNK]))
+    results = [run_tool("search_documents", {"query": f"q{i}"}, ctx) for i in range(3)]
+    assert [ok for ok, _ in results] == [True, True, False]
+    assert "limit" in results[2][1] and ctx.searches == 2
