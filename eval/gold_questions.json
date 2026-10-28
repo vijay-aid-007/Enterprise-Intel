@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "version": 1,
+    "note": "Questions were written from the SYNTHETIC documents, so scores are optimistic. relevant_chunks lists chunks that contain the answer and is not exhaustive. expected_facts must appear (case and whitespace normalised) in the relevant chunks. absent_terms must not appear in any chunk the model can retrieve. tests/test_eval_gold.py checks both against data/processed/chunks.jsonl.",
+    "splits": {"dev": "retrieval mode and DENSE_MIN_SIM tuning only", "heldout": "run once after tuning is frozen"}
+  },
+  "questions": [
+    {"id": "g01", "split": "dev", "type": "answerable", "question": "What is the absolute cap on any retention discount?", "relevant_chunks": ["retention_policy-0002", "retention_policy-0038"], "expected_facts": ["30 percent"]},
+    {"id": "g02", "split": "dev", "type": "answerable", "question": "What is the maximum retention discount for a Critical tier customer on a month-to-month contract, and who has to approve it?", "relevant_chunks": ["retention_policy-0016"], "expected_facts": ["30% of the internet plan list price for 6 months", "retention manager"]},
+    {"id": "g03", "split": "dev", "type": "answerable", "question": "What combined discount ceiling applies to a Medium tier customer on a one year contract?", "relevant_chunks": ["facts_sheet-0071"], "expected_facts": ["15% (5% contract plus 10% retention)"]},
+    {"id": "g04", "split": "dev", "type": "answerable", "question": "What is the combined discount ceiling for a Low tier customer on a month-to-month contract?", "relevant_chunks": ["facts_sheet-0067"], "expected_facts": ["combined discount ceiling of 0%"]},
+    {"id": "g05", "split": "dev", "type": "answerable", "question": "How much does the Fiber optic plan cost per month and how fast is it?", "relevant_chunks": ["plans_pricing_guide-0002"], "expected_facts": ["1000 mbps", "$50"]},
+    {"id": "g06", "split": "dev", "type": "answerable", "question": "How many days after the invoice date is payment due?", "relevant_chunks": ["service_terms-0001"], "expected_facts": ["due 15 days after the invoice date"]},
+    {"id": "g07", "split": "dev", "type": "out_of_scope", "question": "What is the capital of France?"},
+    {"id": "g08", "split": "dev", "type": "out_of_scope", "question": "Can you give me a recipe for margherita pizza?"},
+    {"id": "g09", "split": "dev", "type": "gap", "question": "What is the maximum retention discount for Platinum tier customers?", "absent_terms": ["platinum"]},
+    {"id": "g10", "split": "dev", "type": "gap", "question": "What is the early termination fee for a three year contract?", "absent_terms": ["three year", "three-year", "3-year"]},
+    {"id": "g11", "split": "heldout", "type": "answerable", "question": "What is the maximum retention discount for a Medium tier customer on a month-to-month contract, and for how long does it last?", "relevant_chunks": ["retention_policy-0010"], "expected_facts": ["10% of the internet plan list price for 3 months"]},
+    {"id": "g12", "split": "heldout", "type": "answerable", "question": "Who has to approve a retention discount for a High tier customer on a month-to-month contract?", "relevant_chunks": ["retention_policy-0013"], "expected_facts": ["needs approval from the team lead"]},
+    {"id": "g13", "split": "heldout", "type": "answerable", "question": "What one-time bill credit can a Medium tier customer on a one year contract get for renewing for two years?", "relevant_chunks": ["retention_policy-0011"], "expected_facts": ["$75 bill credit"]},
+    {"id": "g14", "split": "heldout", "type": "answerable", "question": "A High tier customer is up to date on payments but accepted a retention discount 6 months ago. Can they get another one?", "relevant_chunks": ["retention_policy-0049"], "expected_facts": ["not eligible for another retention discount", "12-month price lock"]},
+    {"id": "g15", "split": "heldout", "type": "answerable", "question": "Does a Low tier customer on a one year contract qualify for any retention discount?", "relevant_chunks": ["retention_policy-0008"], "expected_facts": ["no retention discount is available at this tier"]},
+    {"id": "g16", "split": "heldout", "type": "answerable", "question": "What should an agent do when a customer asks for more than the tier maximum discount?", "relevant_chunks": ["retention_policy-0038"], "expected_facts": ["decline", "30 percent cap"]},
+    {"id": "g17", "split": "heldout", "type": "answerable", "question": "What is the combined discount ceiling for a Critical tier customer on a two year contract?", "relevant_chunks": ["facts_sheet-0078", "retention_policy-0018"], "expected_facts": ["40%"]},
+    {"id": "g18", "split": "heldout", "type": "answerable", "question": "On Fiber optic, what does a High tier customer on a month-to-month contract pay per month at the combined discount ceiling?", "relevant_chunks": ["facts_sheet-0073"], "expected_facts": ["$40 per month"]},
+    {"id": "g19", "split": "heldout", "type": "answerable", "question": "How much does each additional phone line cost after the first one?", "relevant_chunks": ["plans_pricing_guide-0003"], "expected_facts": ["each additional line costs $5 per month"]},
+    {"id": "g20", "split": "heldout", "type": "answerable", "question": "Can the new customer promotion be offered to existing customers to keep them?", "relevant_chunks": ["plans_pricing_guide-0007"], "expected_facts": ["cannot be given to existing customers as a retention offer"]},
+    {"id": "g21", "split": "heldout", "type": "answerable", "question": "What is the monthly total for Fiber optic on a two year contract with Device Protection, Streaming TV and Streaming Movies?", "relevant_chunks": ["plans_pricing_guide-0139"], "expected_facts": ["total $70 per month"]},
+    {"id": "g22", "split": "heldout", "type": "answerable", "question": "What is the early termination fee for a two year contract cancelled with 5 months remaining?", "relevant_chunks": ["service_terms-0017"], "expected_facts": ["5 x $20 = $100"]},
+    {"id": "g23", "split": "heldout", "type": "answerable", "question": "How much credit does a DSL customer get for a 5 hour outage?", "relevant_chunks": ["service_terms-0053"], "expected_facts": ["$0.83"]},
+    {"id": "g24", "split": "heldout", "type": "answerable", "question": "Is there a late fee if payment arrives 26 days after the invoice date?", "relevant_chunks": ["service_terms-0034"], "expected_facts": ["the $5 late fee applies"]},
+    {"id": "g25", "split": "heldout", "type": "out_of_scope", "question": "Who won the 2022 FIFA World Cup?"},
+    {"id": "g26", "split": "heldout", "type": "out_of_scope", "question": "What is the boiling point of water in degrees Celsius?"},
+    {"id": "g27", "split": "heldout", "type": "gap", "question": "How much does a static IP address add-on cost?", "absent_terms": ["static ip"]},
+    {"id": "g28", "split": "heldout", "type": "gap", "question": "What discount do students get on internet plans?", "absent_terms": ["student"]}
+  ]
+}
