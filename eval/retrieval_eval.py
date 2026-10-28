@@ -74,14 +74,16 @@ def validate_gold(questions: list[dict[str, Any]], chunks: dict[str, dict[str, A
                 problems.append(f"{qid}: answerable question needs expected_facts")
             text = normalize(" ".join(usable[cid]["text"] for cid in relevant))
             problems += [f"{qid}: fact not in relevant chunks: {f!r}" for f in facts if normalize(f) not in text]
-        if kind == "gap":
-            terms = q.get("absent_terms", [])
-            if not terms:
-                problems.append(f"{qid}: gap question needs absent_terms")
-            problems += [
-                f"{qid}: term appears in the documents, so this is not a gap: {t!r}"
-                for t in terms if normalize(t) in corpus
-            ]
+        
+        terms = q.get("absent_terms", [])    
+        if kind == "gap" and not terms:
+            problems.append(f"{qid}: gap question needs absent_terms")
+        if kind == "answerable" and terms:
+            problems.append(f"{qid}: answerable questions must not list absent_terms")
+        problems += [
+            f"{qid}: term appears in the documents, so this is not a gap: {t!r}"
+            for t in terms if normalize(t) in corpus
+        ]
     return problems
 
 

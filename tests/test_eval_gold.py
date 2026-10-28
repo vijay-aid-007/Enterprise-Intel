@@ -50,12 +50,11 @@ def fake_result() -> dict[str, Any]:
 
 def test_gold_counts_and_ids() -> None:
     questions = ev.load_gold()
-    assert len(questions) == 28 and len({q["id"] for q in questions}) == 28
-    assert sum(q["split"] == "dev" for q in questions) == 10
+    assert len(questions) == 32 and len({q["id"] for q in questions}) == 32
+    assert sum(q["split"] == "dev" for q in questions) == 14
     assert {t: sum(q["type"] == t for q in questions) for t in ev.TYPES} == {
-        "answerable": 20, "out_of_scope": 4, "gap": 4,
+        "answerable": 22, "out_of_scope": 6, "gap": 4,
     }
-
 
 def test_dev_split_has_every_question_type() -> None:
     assert {q["type"] for q in ev.load_gold() if q["split"] == "dev"} == set(ev.TYPES)
@@ -139,3 +138,14 @@ def test_render_markdown_has_tables() -> None:
 
 def test_normalize_handles_odd_characters() -> None:
     assert ev.normalize("One\u2011Year  \u202f$50\n") == "one-year $50"
+
+def test_out_of_scope_absent_terms_are_checked() -> None:
+    questions = [
+        {"id": "o1", "split": "dev", "type": "out_of_scope", "question": "q", "absent_terms": ["30 percent"]},
+        {"id": "o2", "split": "dev", "type": "out_of_scope", "question": "q", "absent_terms": ["smartphone"]},
+        {"id": "a1", "split": "dev", "type": "answerable", "question": "q", "relevant_chunks": ["c1"],
+         "expected_facts": ["30 percent"], "absent_terms": ["x"]},
+    ]
+    text = "\n".join(ev.validate_gold(questions, FAKE_CHUNKS))
+    assert "o1: term appears" in text and "o2" not in text
+    assert "a1: answerable question must not list absent_terms" in text
