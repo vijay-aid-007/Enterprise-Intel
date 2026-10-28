@@ -1,0 +1,310 @@
+{
+  "n_questions": 10,
+  "ablation": {
+    "dense": {
+      "n": 6,
+      "hit@1": {
+        "hits": 4,
+        "rate": 0.667
+      },
+      "hit@3": {
+        "hits": 5,
+        "rate": 0.833
+      },
+      "hit@5": {
+        "hits": 5,
+        "rate": 0.833
+      },
+      "mrr": 0.75
+    },
+    "bm25": {
+      "n": 6,
+      "hit@1": {
+        "hits": 4,
+        "rate": 0.667
+      },
+      "hit@3": {
+        "hits": 4,
+        "rate": 0.667
+      },
+      "hit@5": {
+        "hits": 5,
+        "rate": 0.833
+      },
+      "mrr": 0.708
+    },
+    "hybrid": {
+      "n": 6,
+      "hit@1": {
+        "hits": 5,
+        "rate": 0.833
+      },
+      "hit@3": {
+        "hits": 5,
+        "rate": 0.833
+      },
+      "hit@5": {
+        "hits": 5,
+        "rate": 0.833
+      },
+      "mrr": 0.833
+    }
+  },
+  "refusal_at_configured": {
+    "threshold": 0.25,
+    "table": {
+      "answerable": {
+        "refused": 0,
+        "n": 6
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    }
+  },
+  "sweep": [
+    {
+      "threshold": 0.15,
+      "answerable": {
+        "refused": 0,
+        "n": 6
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.2,
+      "answerable": {
+        "refused": 0,
+        "n": 6
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.25,
+      "answerable": {
+        "refused": 0,
+        "n": 6
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.3,
+      "answerable": {
+        "refused": 0,
+        "n": 6
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.35,
+      "answerable": {
+        "refused": 0,
+        "n": 6
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.4,
+      "answerable": {
+        "refused": 0,
+        "n": 6
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.45,
+      "answerable": {
+        "refused": 0,
+        "n": 6
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.5,
+      "answerable": {
+        "refused": 0,
+        "n": 6
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    }
+  ],
+  "suggested_threshold": 0.433,
+  "dense_only_rule_holds": true,
+  "rows": [
+    {
+      "id": "g01",
+      "type": "answerable",
+      "question": "What is the absolute cap on any retention discount?",
+      "dense_top": 0.7391,
+      "bm25_top": 18.7612,
+      "sufficient": true,
+      "ranks": {
+        "dense": 1,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g02",
+      "type": "answerable",
+      "question": "What is the maximum retention discount for a Critical tier customer on a month-to-month contract, and who has to approve it?",
+      "dense_top": 0.7745,
+      "bm25_top": 20.6842,
+      "sufficient": true,
+      "ranks": {
+        "dense": 1,
+        "bm25": 4,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g03",
+      "type": "answerable",
+      "question": "What combined discount ceiling applies to a Medium tier customer on a one year contract?",
+      "dense_top": 0.7609,
+      "bm25_top": 23.7092,
+      "sufficient": true,
+      "ranks": {
+        "dense": 2,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g04",
+      "type": "answerable",
+      "question": "What is the combined discount ceiling for a Low tier customer on a month-to-month contract?",
+      "dense_top": 0.7836,
+      "bm25_top": 26.3391,
+      "sufficient": true,
+      "ranks": {
+        "dense": 1,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g05",
+      "type": "answerable",
+      "question": "How much does the Fiber optic plan cost per month and how fast is it?",
+      "dense_top": 0.7656,
+      "bm25_top": 8.1039,
+      "sufficient": true,
+      "ranks": {
+        "dense": null,
+        "bm25": null,
+        "hybrid": null
+      }
+    },
+    {
+      "id": "g06",
+      "type": "answerable",
+      "question": "How many days after the invoice date is payment due?",
+      "dense_top": 0.7803,
+      "bm25_top": 16.5426,
+      "sufficient": true,
+      "ranks": {
+        "dense": 1,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g07",
+      "type": "out_of_scope",
+      "question": "What is the capital of France?",
+      "dense_top": 0.1219,
+      "bm25_top": 0.0,
+      "sufficient": false,
+      "ranks": {}
+    },
+    {
+      "id": "g08",
+      "type": "out_of_scope",
+      "question": "Can you give me a recipe for margherita pizza?",
+      "dense_top": 0.1268,
+      "bm25_top": 3.6016,
+      "sufficient": false,
+      "ranks": {}
+    },
+    {
+      "id": "g09",
+      "type": "gap",
+      "question": "What is the maximum retention discount for Platinum tier customers?",
+      "dense_top": 0.7203,
+      "bm25_top": 10.2029,
+      "sufficient": true,
+      "ranks": {}
+    },
+    {
+      "id": "g10",
+      "type": "gap",
+      "question": "What is the early termination fee for a three year contract?",
+      "dense_top": 0.7869,
+      "bm25_top": 13.2192,
+      "sufficient": true,
+      "ranks": {}
+    }
+  ]
+}
