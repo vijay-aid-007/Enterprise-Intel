@@ -1,0 +1,474 @@
+{
+  "n_questions": 18,
+  "ablation": {
+    "dense": {
+      "n": 14,
+      "hit@1": {
+        "hits": 3,
+        "rate": 0.214
+      },
+      "hit@3": {
+        "hits": 9,
+        "rate": 0.643
+      },
+      "hit@5": {
+        "hits": 9,
+        "rate": 0.643
+      },
+      "mrr": 0.429
+    },
+    "bm25": {
+      "n": 14,
+      "hit@1": {
+        "hits": 11,
+        "rate": 0.786
+      },
+      "hit@3": {
+        "hits": 14,
+        "rate": 1.0
+      },
+      "hit@5": {
+        "hits": 14,
+        "rate": 1.0
+      },
+      "mrr": 0.881
+    },
+    "hybrid": {
+      "n": 14,
+      "hit@1": {
+        "hits": 8,
+        "rate": 0.571
+      },
+      "hit@3": {
+        "hits": 12,
+        "rate": 0.857
+      },
+      "hit@5": {
+        "hits": 12,
+        "rate": 0.857
+      },
+      "mrr": 0.711
+    }
+  },
+  "refusal_at_configured": {
+    "threshold": 0.3,
+    "table": {
+      "answerable": {
+        "refused": 0,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    }
+  },
+  "sweep": [
+    {
+      "threshold": 0.15,
+      "answerable": {
+        "refused": 0,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.2,
+      "answerable": {
+        "refused": 0,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.25,
+      "answerable": {
+        "refused": 0,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.3,
+      "answerable": {
+        "refused": 0,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.35,
+      "answerable": {
+        "refused": 0,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.4,
+      "answerable": {
+        "refused": 0,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.45,
+      "answerable": {
+        "refused": 0,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.5,
+      "answerable": {
+        "refused": 0,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.55,
+      "answerable": {
+        "refused": 0,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 1,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.6,
+      "answerable": {
+        "refused": 1,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 1,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.65,
+      "answerable": {
+        "refused": 1,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 2,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.7,
+      "answerable": {
+        "refused": 1,
+        "n": 14
+      },
+      "out_of_scope": {
+        "refused": 2,
+        "n": 2
+      },
+      "gap": {
+        "refused": 2,
+        "n": 2
+      }
+    }
+  ],
+  "suggested_threshold": 0.328,
+  "dense_only_rule_holds": true,
+  "rows": [
+    {
+      "id": "g11",
+      "type": "answerable",
+      "question": "What is the maximum retention discount for a Medium tier customer on a month-to-month contract, and for how long does it last?",
+      "dense_top": 0.7625,
+      "bm25_top": 18.9163,
+      "sufficient": true,
+      "ranks": {
+        "dense": null,
+        "bm25": 1,
+        "hybrid": 7
+      }
+    },
+    {
+      "id": "g12",
+      "type": "answerable",
+      "question": "What is the total monthly price for DSL with 1 phone line on a month-to-month contract without automatic payment?",
+      "dense_top": 0.8132,
+      "bm25_top": 20.2498,
+      "sufficient": true,
+      "ranks": {
+        "dense": null,
+        "bm25": 1,
+        "hybrid": 3
+      }
+    },
+    {
+      "id": "g13",
+      "type": "answerable",
+      "question": "How much do Online Security and Online Backup cost together per month and per year?",
+      "dense_top": 0.7536,
+      "bm25_top": 24.5578,
+      "sufficient": true,
+      "ranks": {
+        "dense": 1,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g14",
+      "type": "answerable",
+      "question": "A High tier customer is up to date on payments but accepted a retention discount 6 months ago. Can they get another one?",
+      "dense_top": 0.8195,
+      "bm25_top": 31.7216,
+      "sufficient": true,
+      "ranks": {
+        "dense": 3,
+        "bm25": 2,
+        "hybrid": 2
+      }
+    },
+    {
+      "id": "g15",
+      "type": "answerable",
+      "question": "Does a Low tier customer on a one year contract qualify for any retention discount?",
+      "dense_top": 0.789,
+      "bm25_top": 15.4083,
+      "sufficient": true,
+      "ranks": {
+        "dense": null,
+        "bm25": 2,
+        "hybrid": 7
+      }
+    },
+    {
+      "id": "g16",
+      "type": "answerable",
+      "question": "What should an agent do when a customer asks for more than the tier maximum discount?",
+      "dense_top": 0.706,
+      "bm25_top": 19.4238,
+      "sufficient": true,
+      "ranks": {
+        "dense": 1,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g17",
+      "type": "answerable",
+      "question": "How many outbound retention calls per day can a retention team of 2 agents make?",
+      "dense_top": 0.7784,
+      "bm25_top": 34.358,
+      "sufficient": true,
+      "ranks": {
+        "dense": 3,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g18",
+      "type": "answerable",
+      "question": "On Fiber optic, what does a High tier customer on a month-to-month contract pay per month at the combined discount ceiling?",
+      "dense_top": 0.8191,
+      "bm25_top": 27.7442,
+      "sufficient": true,
+      "ranks": {
+        "dense": 2,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g19",
+      "type": "answerable",
+      "question": "How much does each additional phone line cost after the first one?",
+      "dense_top": 0.7998,
+      "bm25_top": 22.053,
+      "sufficient": true,
+      "ranks": {
+        "dense": 6,
+        "bm25": 1,
+        "hybrid": 3
+      }
+    },
+    {
+      "id": "g20",
+      "type": "answerable",
+      "question": "Can the new customer promotion be offered to existing customers to keep them?",
+      "dense_top": 0.5514,
+      "bm25_top": 28.97,
+      "sufficient": true,
+      "ranks": {
+        "dense": 2,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g21",
+      "type": "answerable",
+      "question": "What is the monthly total for Fiber optic on a two year contract with Device Protection, Streaming TV and Streaming Movies?",
+      "dense_top": 0.7503,
+      "bm25_top": 23.7685,
+      "sufficient": true,
+      "ranks": {
+        "dense": 2,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g22",
+      "type": "answerable",
+      "question": "What is the early termination fee for a two year contract cancelled with 5 months remaining?",
+      "dense_top": 0.8234,
+      "bm25_top": 21.0516,
+      "sufficient": true,
+      "ranks": {
+        "dense": 2,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g23",
+      "type": "answerable",
+      "question": "By when must an Urgent ticket opened at 8:00 get its first response?",
+      "dense_top": 0.7244,
+      "bm25_top": 31.0147,
+      "sufficient": true,
+      "ranks": {
+        "dense": 6,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g24",
+      "type": "answerable",
+      "question": "What is the total per month for DSL on a month-to-month contract with Online Security and Online Backup?",
+      "dense_top": 0.7661,
+      "bm25_top": 22.1007,
+      "sufficient": true,
+      "ranks": {
+        "dense": 1,
+        "bm25": 3,
+        "hybrid": 2
+      }
+    },
+    {
+      "id": "g25",
+      "type": "out_of_scope",
+      "question": "Who won the 2022 FIFA World Cup?",
+      "dense_top": 0.0629,
+      "bm25_top": 0.0,
+      "sufficient": false,
+      "ranks": {}
+    },
+    {
+      "id": "g26",
+      "type": "out_of_scope",
+      "question": "What is the boiling point of water in degrees Celsius?",
+      "dense_top": 0.1055,
+      "bm25_top": 0.0,
+      "sufficient": false,
+      "ranks": {}
+    },
+    {
+      "id": "g27",
+      "type": "gap",
+      "question": "How much does a static IP address add-on cost?",
+      "dense_top": 0.539,
+      "bm25_top": 2.919,
+      "sufficient": true,
+      "ranks": {}
+    },
+    {
+      "id": "g28",
+      "type": "gap",
+      "question": "What discount do students get on internet plans?",
+      "dense_top": 0.623,
+      "bm25_top": 8.3623,
+      "sufficient": true,
+      "ranks": {}
+    }
+  ]
+}

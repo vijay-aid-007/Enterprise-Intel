@@ -1,21 +1,21 @@
 # Retrieval evaluation: dev split
 
-10 questions. Gold questions come from SYNTHETIC documents, so these scores are optimistic. Relevance labels are not exhaustive.
+14 questions. Gold questions come from SYNTHETIC documents, so these scores are optimistic. Relevance labels are not exhaustive.
 
 ## Ablation (answerable questions only)
 
 | mode | n | hit@1 | hit@3 | hit@5 | MRR |
 |---|---|---|---|---|---|
-| dense | 6 | 4/6 | 5/6 | 5/6 | 0.75 |
-| bm25 | 6 | 4/6 | 4/6 | 5/6 | 0.708 |
-| hybrid | 6 | 5/6 | 5/6 | 5/6 | 0.833 |
+| dense | 8 | 6/8 | 7/8 | 7/8 | 0.812 |
+| bm25 | 8 | 6/8 | 6/8 | 7/8 | 0.781 |
+| hybrid | 8 | 6/8 | 7/8 | 7/8 | 0.812 |
 
-## Refusal at the configured threshold (0.25)
+## Refusal at the configured threshold (0.3)
 
 | question type | refused / n |
 |---|---|
-| answerable | 0/6 |
-| out_of_scope | 2/2 |
+| answerable | 0/8 |
+| out_of_scope | 4/4 |
 | gap | 0/2 |
 
 Target: no answerable question refused, every out_of_scope question refused. Gap questions look in-scope to retrieval, so the model has to refuse them (generation eval).
@@ -24,16 +24,20 @@ Target: no answerable question refused, every out_of_scope question refused. Gap
 
 | threshold | answerable refused | out_of_scope refused | gap refused |
 |---|---|---|---|
-| 0.15 | 0/6 | 2/2 | 0/2 |
-| 0.2 | 0/6 | 2/2 | 0/2 |
-| 0.25 | 0/6 | 2/2 | 0/2 |
-| 0.3 | 0/6 | 2/2 | 0/2 |
-| 0.35 | 0/6 | 2/2 | 0/2 |
-| 0.4 | 0/6 | 2/2 | 0/2 |
-| 0.45 | 0/6 | 2/2 | 0/2 |
-| 0.5 | 0/6 | 2/2 | 0/2 |
+| 0.15 | 0/8 | 2/4 | 0/2 |
+| 0.2 | 0/8 | 2/4 | 0/2 |
+| 0.25 | 0/8 | 2/4 | 0/2 |
+| 0.3 | 0/8 | 4/4 | 0/2 |
+| 0.35 | 0/8 | 4/4 | 0/2 |
+| 0.4 | 0/8 | 4/4 | 0/2 |
+| 0.45 | 0/8 | 4/4 | 0/2 |
+| 0.5 | 0/8 | 4/4 | 0/2 |
+| 0.55 | 0/8 | 4/4 | 0/2 |
+| 0.6 | 0/8 | 4/4 | 0/2 |
+| 0.65 | 0/8 | 4/4 | 0/2 |
+| 0.7 | 0/8 | 4/4 | 0/2 |
 
-Suggested threshold (midpoint of the best out-of-scope and worst answerable score): 0.433
+Suggested threshold (midpoint of the best out-of-scope and worst answerable score): 0.514
 Sufficiency is dense-only at the configured threshold: True
 
 ## Per question
@@ -50,3 +54,7 @@ Sufficiency is dense-only at the configured threshold: True
 | g08 | out_of_scope | 0.127 | n/a | n/a | n/a | True |
 | g09 | gap | 0.720 | n/a | n/a | n/a | False |
 | g10 | gap | 0.787 | n/a | n/a | n/a | False |
+| g29 | answerable | 0.747 | 1 | 1 | 1 | False |
+| g30 | answerable | 0.812 | 1 | 1 | 2 | False |
+| g31 | out_of_scope | 0.268 | n/a | n/a | n/a | True |
+| g32 | out_of_scope | 0.290 | n/a | n/a | n/a | True |

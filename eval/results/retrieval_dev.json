@@ -1,65 +1,65 @@
 {
-  "n_questions": 10,
+  "n_questions": 14,
   "ablation": {
     "dense": {
-      "n": 6,
+      "n": 8,
       "hit@1": {
-        "hits": 4,
-        "rate": 0.667
+        "hits": 6,
+        "rate": 0.75
       },
       "hit@3": {
-        "hits": 5,
-        "rate": 0.833
+        "hits": 7,
+        "rate": 0.875
       },
       "hit@5": {
-        "hits": 5,
-        "rate": 0.833
+        "hits": 7,
+        "rate": 0.875
       },
-      "mrr": 0.75
+      "mrr": 0.812
     },
     "bm25": {
-      "n": 6,
+      "n": 8,
       "hit@1": {
-        "hits": 4,
-        "rate": 0.667
+        "hits": 6,
+        "rate": 0.75
       },
       "hit@3": {
-        "hits": 4,
-        "rate": 0.667
+        "hits": 6,
+        "rate": 0.75
       },
       "hit@5": {
-        "hits": 5,
-        "rate": 0.833
+        "hits": 7,
+        "rate": 0.875
       },
-      "mrr": 0.708
+      "mrr": 0.781
     },
     "hybrid": {
-      "n": 6,
+      "n": 8,
       "hit@1": {
-        "hits": 5,
-        "rate": 0.833
+        "hits": 6,
+        "rate": 0.75
       },
       "hit@3": {
-        "hits": 5,
-        "rate": 0.833
+        "hits": 7,
+        "rate": 0.875
       },
       "hit@5": {
-        "hits": 5,
-        "rate": 0.833
+        "hits": 7,
+        "rate": 0.875
       },
-      "mrr": 0.833
+      "mrr": 0.812
     }
   },
   "refusal_at_configured": {
-    "threshold": 0.25,
+    "threshold": 0.3,
     "table": {
       "answerable": {
         "refused": 0,
-        "n": 6
+        "n": 8
       },
       "out_of_scope": {
-        "refused": 2,
-        "n": 2
+        "refused": 4,
+        "n": 4
       },
       "gap": {
         "refused": 0,
@@ -72,11 +72,11 @@
       "threshold": 0.15,
       "answerable": {
         "refused": 0,
-        "n": 6
+        "n": 8
       },
       "out_of_scope": {
         "refused": 2,
-        "n": 2
+        "n": 4
       },
       "gap": {
         "refused": 0,
@@ -87,11 +87,11 @@
       "threshold": 0.2,
       "answerable": {
         "refused": 0,
-        "n": 6
+        "n": 8
       },
       "out_of_scope": {
         "refused": 2,
-        "n": 2
+        "n": 4
       },
       "gap": {
         "refused": 0,
@@ -102,11 +102,11 @@
       "threshold": 0.25,
       "answerable": {
         "refused": 0,
-        "n": 6
+        "n": 8
       },
       "out_of_scope": {
         "refused": 2,
-        "n": 2
+        "n": 4
       },
       "gap": {
         "refused": 0,
@@ -117,11 +117,11 @@
       "threshold": 0.3,
       "answerable": {
         "refused": 0,
-        "n": 6
+        "n": 8
       },
       "out_of_scope": {
-        "refused": 2,
-        "n": 2
+        "refused": 4,
+        "n": 4
       },
       "gap": {
         "refused": 0,
@@ -132,11 +132,11 @@
       "threshold": 0.35,
       "answerable": {
         "refused": 0,
-        "n": 6
+        "n": 8
       },
       "out_of_scope": {
-        "refused": 2,
-        "n": 2
+        "refused": 4,
+        "n": 4
       },
       "gap": {
         "refused": 0,
@@ -147,11 +147,11 @@
       "threshold": 0.4,
       "answerable": {
         "refused": 0,
-        "n": 6
+        "n": 8
       },
       "out_of_scope": {
-        "refused": 2,
-        "n": 2
+        "refused": 4,
+        "n": 4
       },
       "gap": {
         "refused": 0,
@@ -162,11 +162,11 @@
       "threshold": 0.45,
       "answerable": {
         "refused": 0,
-        "n": 6
+        "n": 8
       },
       "out_of_scope": {
-        "refused": 2,
-        "n": 2
+        "refused": 4,
+        "n": 4
       },
       "gap": {
         "refused": 0,
@@ -177,11 +177,71 @@
       "threshold": 0.5,
       "answerable": {
         "refused": 0,
-        "n": 6
+        "n": 8
       },
       "out_of_scope": {
-        "refused": 2,
+        "refused": 4,
+        "n": 4
+      },
+      "gap": {
+        "refused": 0,
         "n": 2
+      }
+    },
+    {
+      "threshold": 0.55,
+      "answerable": {
+        "refused": 0,
+        "n": 8
+      },
+      "out_of_scope": {
+        "refused": 4,
+        "n": 4
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.6,
+      "answerable": {
+        "refused": 0,
+        "n": 8
+      },
+      "out_of_scope": {
+        "refused": 4,
+        "n": 4
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.65,
+      "answerable": {
+        "refused": 0,
+        "n": 8
+      },
+      "out_of_scope": {
+        "refused": 4,
+        "n": 4
+      },
+      "gap": {
+        "refused": 0,
+        "n": 2
+      }
+    },
+    {
+      "threshold": 0.7,
+      "answerable": {
+        "refused": 0,
+        "n": 8
+      },
+      "out_of_scope": {
+        "refused": 4,
+        "n": 4
       },
       "gap": {
         "refused": 0,
@@ -189,7 +249,7 @@
       }
     }
   ],
-  "suggested_threshold": 0.433,
+  "suggested_threshold": 0.514,
   "dense_only_rule_holds": true,
   "rows": [
     {
@@ -304,6 +364,50 @@
       "dense_top": 0.7869,
       "bm25_top": 13.2192,
       "sufficient": true,
+      "ranks": {}
+    },
+    {
+      "id": "g29",
+      "type": "answerable",
+      "question": "How much written notice do I have to give to cancel?",
+      "dense_top": 0.7469,
+      "bm25_top": 12.8294,
+      "sufficient": true,
+      "ranks": {
+        "dense": 1,
+        "bm25": 1,
+        "hybrid": 1
+      }
+    },
+    {
+      "id": "g30",
+      "type": "answerable",
+      "question": "How long do I have to send back my rented router after I cancel?",
+      "dense_top": 0.8118,
+      "bm25_top": 9.1673,
+      "sufficient": true,
+      "ranks": {
+        "dense": 1,
+        "bm25": 1,
+        "hybrid": 2
+      }
+    },
+    {
+      "id": "g31",
+      "type": "out_of_scope",
+      "question": "Which smartphone should I buy for my teenager?",
+      "dense_top": 0.2683,
+      "bm25_top": 0.0,
+      "sufficient": false,
+      "ranks": {}
+    },
+    {
+      "id": "g32",
+      "type": "out_of_scope",
+      "question": "How do I set up a Wi-Fi mesh network at home?",
+      "dense_top": 0.2899,
+      "bm25_top": 3.0432,
+      "sufficient": false,
       "ranks": {}
     }
   ]
