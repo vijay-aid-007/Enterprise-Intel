@@ -121,4 +121,4 @@ UI_SLOW_TIMEOUT_S: float = 240.0   # /ask, /agent, /report: first call loads the
 GOLD_JSON: Path = EVAL_DIR / "gold_questions.json"
 EVAL_KS: tuple[int, ...] = (1, 3, 5)
 EVAL_MAX_RANK: int = 10
-EVAL_SWEEP: tuple[float, ...] = (0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50)  # DENSE_MIN_SIM candidates
+EVAL_SWEEP: tuple[float, ...] = (0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70)  # DENSE_MIN_SIM candidates
