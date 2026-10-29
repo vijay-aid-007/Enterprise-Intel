@@ -52,7 +52,7 @@ DOC_FILES: tuple[str, ...] = (
     "service_terms.pdf",
     "support_tickets.csv",
 )
-SYNTHETIC_DOCS: frozenset[str] = frozenset(DOC_FILES)  # all five are LLM-generated
+SYNTHETIC_DOCS: frozenset[str] = frozenset(DOC_FILES)  # all five are synthetic; see scripts/make_synthetic_docs.py
 CHUNKS_JSONL: Path = DATA_PROCESSED / "chunks.jsonl"
 CHUNK_MAX_CHARS: int = 900  # ~200 tokens; MiniLM truncates at 256 tokens
 

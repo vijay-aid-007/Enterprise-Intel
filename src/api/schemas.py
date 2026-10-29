@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field, StringConstraints, field_validator
 from src import config
 
 SYNTHETIC_NOTICE = (
-    "Policy, plan, pricing and service-terms documents are SYNTHETIC (LLM-generated) examples created "
+    "Policy, plan, pricing and service-terms documents are SYNTHETIC examples generated "
     "for this assignment. They are not facts about the real Telco dataset or any real company."
 )
 CUSTOMER_ID_PATTERN = r"^[A-Za-z0-9-]{1,20}$"

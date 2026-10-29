@@ -199,7 +199,7 @@ def _base_notes(chunks: list[dict[str, Any]], dropped: list[str]) -> list[str]:
     ]
     if any(c.get("source") in config.SYNTHETIC_DOCS for c in chunks):
         notes.append(
-            "Policy, plan and price statements come from SYNTHETIC documents (LLM-generated). "
+            "Policy, plan and price statements come from SYNTHETIC documents generated for this assignment. "
             "They are not facts about the real Telco dataset."
         )
     if any("remain" in c["text"].lower() for c in chunks):

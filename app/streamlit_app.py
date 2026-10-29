@@ -131,7 +131,7 @@ def main() -> None:
     st.title("Autonomous Enterprise Intelligence Platform")
     st.caption(
         "Churn model and customer table: real Telco data. "
-        "Policy, plans, pricing and service-terms documents: SYNTHETIC (LLM-generated)."
+        "Policy, plans, pricing and service-terms documents: SYNTHETIC (generated for this assignment)."
     )
     sidebar(client)
     report, ask, agent = st.tabs(["Customer report", "Ask the documents", "Agent"])
