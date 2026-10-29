@@ -160,6 +160,7 @@ def main() -> None:
     parser.add_argument("--offline", action="store_true", help="replay from the cache only; no API key needed")
     parser.add_argument("--interval", type=float, default=config.EVAL_LLM_MIN_INTERVAL_S)
     args = parser.parse_args()
+    config.use_utf8_stdout()
     config.configure_logging()
     for noisy in ("httpx", "httpx2", "huggingface_hub", "sentence_transformers"):
         logging.getLogger(noisy).setLevel(logging.WARNING)

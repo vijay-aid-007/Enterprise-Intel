@@ -271,7 +271,7 @@
     }
   ],
   "cache": {
-    "hits": 0,
-    "misses": 16
+    "hits": 16,
+    "misses": 0
   }
 }

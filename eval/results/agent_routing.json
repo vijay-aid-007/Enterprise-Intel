@@ -86,7 +86,7 @@
       ],
       "steps": 1,
       "status": "answered",
-      "answer": "Retention Report for Customer 1452\u2011KIOVK\n\n- Contract: Month-to-month\n- Risk tier: High\n- Churn probability: 62.39% (predicted label: churn)\n\nKey drivers:\n* Contract_Month-to-month \u2013 raises churn risk\n* TotalCharges \u2013 lowers churn risk\n* InternetService_Fiber optic \u2013 raises churn risk\n* PaymentMethod_Electronic check \u2013 lowers churn risk\n* OnlineSecurity_No \u2013 raises churn risk\n\nRecommendations:\n1. Offer a retention discount of 20% off the internet plan list price for 6 months, which requires team lead approval.\n2. Provide a one-time $50 bill credit if the customer agrees to switch to a one-year contract.",
+      "answer": "Retention Report for Customer 1452-KIOVK\n\n- Contract: Month-to-month\n- Risk Tier: High\n- Churn Probability: 62.39% (0.6239)\n- Predicted Label: churn\n\nKey Drivers of Churn Risk:\n1. Contract_Month-to-month (raises churn risk)\n2. TotalCharges (lowers churn risk)\n3. InternetService_Fiber optic (raises churn risk)\n4. PaymentMethod_Electronic check (lowers churn risk)\n5. OnlineSecurity_No (raises churn risk)\n\nRecommended Retention Actions:\n1. Offer a retention discount of 20% off the internet plan list price for 6 months, which requires team lead approval. (cited from retention_policy-0013)\n2. Offer a one-time $50 bill credit if the customer agrees to switch to a one-year contract. (cited from retention_policy-0013)\n\nReport Status: complete",
       "first_tool_ok": true,
       "includes_ok": true,
       "status_ok": true
@@ -155,7 +155,7 @@
     }
   ],
   "cache": {
-    "hits": 1,
-    "misses": 29
+    "hits": 30,
+    "misses": 0
   }
 }

@@ -142,4 +142,4 @@ Answer: The plans pricing guide states the total is $35 per month for DSL on a m
 Supported by the cited text (hand): ____
 Answers the question (hand): ____
 
-Cache: 0 replayed, 16 new model calls.
+Cache: 16 replayed, 0 new model calls.

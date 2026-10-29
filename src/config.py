@@ -125,3 +125,16 @@ EVAL_SWEEP: tuple[float, ...] = (0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50,
 
 EVAL_LLM_CACHE: Path = EVAL_DIR / "cache" / "llm_cache.jsonl"
 EVAL_LLM_MIN_INTERVAL_S: float = 20.0  # spacing between real model calls; Groq on_demand allows about 8000 tokens per minute
+
+
+def use_utf8_stdout() -> None:
+    """Print UTF-8 even when stdout is redirected: Windows redirects with cp1252, which cannot encode U+2011.
+
+    sys.stdout is typed TextIO, which has no reconfigure(); the isinstance check narrows it to TextIOWrapper.
+    """
+    import io
+    import sys
+
+    stream = sys.stdout
+    if isinstance(stream, io.TextIOWrapper):
+        stream.reconfigure(encoding="utf-8")

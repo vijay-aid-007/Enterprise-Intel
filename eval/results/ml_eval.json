@@ -1,0 +1,122 @@
+{
+  "n": 1409,
+  "observed_churn_rate": 0.2654,
+  "mean_predicted": 0.4004,
+  "brier": 0.1622,
+  "checks": {
+    "n_matches_metrics_json": true,
+    "brier_matches_metrics_json": true
+  },
+  "tiers": [
+    {
+      "tier": "Low",
+      "n": 701,
+      "churned": 48,
+      "mean_pred": 0.1225,
+      "observed": 0.0685
+    },
+    {
+      "tier": "Medium",
+      "n": 241,
+      "churned": 63,
+      "mean_pred": 0.4788,
+      "observed": 0.2614
+    },
+    {
+      "tier": "High",
+      "n": 269,
+      "churned": 120,
+      "mean_pred": 0.7041,
+      "observed": 0.4461
+    },
+    {
+      "tier": "Critical",
+      "n": 198,
+      "churned": 143,
+      "mean_pred": 0.8764,
+      "observed": 0.7222
+    }
+  ],
+  "bins": [
+    {
+      "lo": 0.0,
+      "hi": 0.1,
+      "n": 377,
+      "churned": 8,
+      "mean_pred": 0.0408,
+      "observed": 0.0212
+    },
+    {
+      "lo": 0.1,
+      "hi": 0.2,
+      "n": 144,
+      "churned": 12,
+      "mean_pred": 0.1485,
+      "observed": 0.0833
+    },
+    {
+      "lo": 0.2,
+      "hi": 0.3,
+      "n": 118,
+      "churned": 12,
+      "mean_pred": 0.2469,
+      "observed": 0.1017
+    },
+    {
+      "lo": 0.3,
+      "hi": 0.4,
+      "n": 106,
+      "churned": 26,
+      "mean_pred": 0.344,
+      "observed": 0.2453
+    },
+    {
+      "lo": 0.4,
+      "hi": 0.5,
+      "n": 98,
+      "churned": 21,
+      "mean_pred": 0.4497,
+      "observed": 0.2143
+    },
+    {
+      "lo": 0.5,
+      "hi": 0.6,
+      "n": 99,
+      "churned": 32,
+      "mean_pred": 0.554,
+      "observed": 0.3232
+    },
+    {
+      "lo": 0.6,
+      "hi": 0.7,
+      "n": 124,
+      "churned": 45,
+      "mean_pred": 0.6539,
+      "observed": 0.3629
+    },
+    {
+      "lo": 0.7,
+      "hi": 0.8,
+      "n": 145,
+      "churned": 75,
+      "mean_pred": 0.7469,
+      "observed": 0.5172
+    },
+    {
+      "lo": 0.8,
+      "hi": 0.9,
+      "n": 130,
+      "churned": 88,
+      "mean_pred": 0.8466,
+      "observed": 0.6769
+    },
+    {
+      "lo": 0.9,
+      "hi": 1.0,
+      "n": 68,
+      "churned": 55,
+      "mean_pred": 0.9333,
+      "observed": 0.8088
+    }
+  ]
+}

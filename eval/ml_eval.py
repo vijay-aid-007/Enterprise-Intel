@@ -169,6 +169,7 @@ def main() -> None:
 
     from src.ml.explain import customer_split, predict_customer
 
+    config.use_utf8_stdout()
     config.configure_logging()
     metrics = load_metrics()
     frame = pd.read_csv(config.CHURN_CSV, usecols=[config.ID_COL, config.TARGET_COL], dtype=str)

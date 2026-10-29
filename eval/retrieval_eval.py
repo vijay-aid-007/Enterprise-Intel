@@ -222,6 +222,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Retrieval ablation and threshold sweep.")
     parser.add_argument("--split", choices=SPLITS, default="dev")
     args = parser.parse_args()
+    config.use_utf8_stdout()
     config.configure_logging()
     questions, chunks = load_gold(), load_chunks()
     problems = validate_gold(questions, chunks)

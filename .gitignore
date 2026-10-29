@@ -9,3 +9,11 @@ wheels/
 # Virtual environments
 .venv
 .env
+
+# Rebuildable: python -m src.rag.index recreates it from data/processed/chunks.jsonl
+indexes/
+
+# Local scratch files
+eval_inputs.txt
+offline_*.txt
+heldout_replay.txt
