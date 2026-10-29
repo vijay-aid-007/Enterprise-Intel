@@ -18,9 +18,9 @@ Report status: **complete**
 
 ## 2. Recommended retention actions (from documents)
 
-1. Offer a retention discount of 10% of the internet plan list price for 3 months, which may be approved by the agent.
+1. Offer the loyalty retention discount of up to 10% off the internet plan list price for three months.
    - Source `retention_policy-0010`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Medium tier, Month-to-month customer, page: 2)
-2. Offer a one-time $50 bill credit if the customer moves to a one-year contract.
+2. Offer a one-time $50 bill credit if the customer agrees to move to a one-year contract.
    - Source `retention_policy-0010`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > Medium tier, Month-to-month customer, page: 2)
 
 ## 3. Withheld by validation (unsupported, omitted from section 2)
@@ -38,7 +38,7 @@ Nothing was withheld.
 ## 5. Notes and limitations
 
 - Tier thresholds are applied directly to the model's churn probability. That is an assumption about what the policy's 'risk score' means.
-- Policy, plan and price statements come from SYNTHETIC documents (LLM-generated). They are not facts about the real Telco dataset.
+- Policy, plan and price statements come from SYNTHETIC documents generated for this assignment. They are not facts about the real Telco dataset.
 - Excluded 9 retrieved chunk(s) written for other tiers or contract types: retention_policy-0012, retention_policy-0013, retention_policy-0016, retention_policy-0011, retention_policy-0007, facts_sheet-0072, facts_sheet-0073, facts_sheet-0067, facts_sheet-0071.
 - predict_customer works only for customer ids present in the Telco CSV.
 - Recommendations are model-drafted. Code checks that cited ids exist and that every number appears in a cited chunk (a text match). It does not check that the wording is right.
