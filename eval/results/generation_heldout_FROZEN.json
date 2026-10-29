@@ -1,0 +1,277 @@
+{
+  "n_questions": 18,
+  "table": {
+    "answerable": {
+      "n": 14,
+      "refused": 1,
+      "correct": 10,
+      "answered_incomplete": 3
+    },
+    "out_of_scope": {
+      "n": 2,
+      "refused": 2
+    },
+    "gap": {
+      "n": 2,
+      "refused": 2
+    }
+  },
+  "rejection": {
+    "rejected": 0,
+    "reached_llm": 16,
+    "rate": 0.0
+  },
+  "rows": [
+    {
+      "id": "g11",
+      "type": "answerable",
+      "question": "What is the maximum retention discount for a Medium tier customer on a month-to-month contract, and for how long does it last?",
+      "status": "refused_model",
+      "outcome": "refused",
+      "answer": "The provided chunks do not contain information about the maximum retention discount for a Medium tier customer on a month-to-month contract or its duration.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g12",
+      "type": "answerable",
+      "question": "What is the total monthly price for DSL with 1 phone line on a month-to-month contract without automatic payment?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "The total monthly price is $45 per month.",
+      "citations": [
+        "facts_sheet-0005"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g13",
+      "type": "answerable",
+      "question": "How much do Online Security and Online Backup cost together per month and per year?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "Online Security and Online Backup together cost $10 per month and $120 per year.",
+      "citations": [
+        "facts_sheet-0051"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g14",
+      "type": "answerable",
+      "question": "A High tier customer is up to date on payments but accepted a retention discount 6 months ago. Can they get another one?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "No. The retention policy states that a High tier customer who is up to date on payments and accepted a retention discount 6 months ago is not eligible for another retention discount, though a 12\u2011month price lock may still be offered.",
+      "citations": [
+        "retention_policy-0051",
+        "retention_policy-0049",
+        "retention_policy-0050"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g15",
+      "type": "answerable",
+      "question": "Does a Low tier customer on a one year contract qualify for any retention discount?",
+      "status": "answered",
+      "outcome": "answered_incomplete",
+      "answer": "No. The facts sheet states that a Low tier customer on a one\u2011year contract has a combined discount ceiling of 5% (5% contract plus 0% retention), meaning they receive no retention discount.",
+      "citations": [
+        "facts_sheet-0068"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g16",
+      "type": "answerable",
+      "question": "What should an agent do when a customer asks for more than the tier maximum discount?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "The agent should decline the request\u2014no retention discount may exceed the tier\u2011maximum discount (or the overall 30\u202f% cap), even with approval.",
+      "citations": [
+        "retention_policy-0038"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g17",
+      "type": "answerable",
+      "question": "How many outbound retention calls per day can a retention team of 2 agents make?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "A retention team of 2 agents can make at most 50 outbound retention calls per day.",
+      "citations": [
+        "facts_sheet-0081"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g18",
+      "type": "answerable",
+      "question": "On Fiber optic, what does a High tier customer on a month-to-month contract pay per month at the combined discount ceiling?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "$40 per month.",
+      "citations": [
+        "facts_sheet-0073"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g19",
+      "type": "answerable",
+      "question": "How much does each additional phone line cost after the first one?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "Each additional phone line costs $5 per month after the first line.",
+      "citations": [
+        "plans_pricing_guide-0003"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g20",
+      "type": "answerable",
+      "question": "Can the new customer promotion be offered to existing customers to keep them?",
+      "status": "answered",
+      "outcome": "answered_incomplete",
+      "answer": "No. The new customer promotion is limited to new sign\u2011ups only and cannot be used as a retention offer for existing customers.",
+      "citations": [
+        "plans_pricing_guide-0007",
+        "retention_policy-0039",
+        "retention_policy-0003"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g21",
+      "type": "answerable",
+      "question": "What is the monthly total for Fiber optic on a two year contract with Device Protection, Streaming TV and Streaming Movies?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "The monthly total is $70 per month.",
+      "citations": [
+        "plans_pricing_guide-0139"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g22",
+      "type": "answerable",
+      "question": "What is the early termination fee for a two year contract cancelled with 5 months remaining?",
+      "status": "answered",
+      "outcome": "answered_incomplete",
+      "answer": "The early termination fee is $100.",
+      "citations": [
+        "service_terms-0017"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g23",
+      "type": "answerable",
+      "question": "By when must an Urgent ticket opened at 8:00 get its first response?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "An Urgent ticket opened at 8:00 must have its first response by 9:00 the same day.",
+      "citations": [
+        "facts_sheet-0101"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g24",
+      "type": "answerable",
+      "question": "What is the total per month for DSL on a month-to-month contract with Online Security and Online Backup?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "The plans pricing guide states the total is $35 per month for DSL on a month-to-month contract with Online Security and Online Backup.",
+      "citations": [
+        "plans_pricing_guide-0012",
+        "plans_pricing_guide-0013"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g25",
+      "type": "out_of_scope",
+      "question": "Who won the 2022 FIFA World Cup?",
+      "status": "refused_insufficient_evidence",
+      "outcome": "refused",
+      "answer": "I could not find enough evidence in the documents to answer this question.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "dense 0.063 < 0.3"
+    },
+    {
+      "id": "g26",
+      "type": "out_of_scope",
+      "question": "What is the boiling point of water in degrees Celsius?",
+      "status": "refused_insufficient_evidence",
+      "outcome": "refused",
+      "answer": "I could not find enough evidence in the documents to answer this question.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "dense 0.106 < 0.3"
+    },
+    {
+      "id": "g27",
+      "type": "gap",
+      "question": "How much does a static IP address add-on cost?",
+      "status": "refused_model",
+      "outcome": "refused",
+      "answer": "The provided chunks do not include the cost of a static IP address add-on.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g28",
+      "type": "gap",
+      "question": "What discount do students get on internet plans?",
+      "status": "refused_model",
+      "outcome": "refused",
+      "answer": "The documents do not specify a student discount.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    }
+  ],
+  "cache": {
+    "hits": 0,
+    "misses": 16
+  }
+}

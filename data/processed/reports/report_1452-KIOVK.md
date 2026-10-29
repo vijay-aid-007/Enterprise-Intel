@@ -18,9 +18,9 @@ Report status: **complete**
 
 ## 2. Recommended retention actions (from documents)
 
-1. Offer a retention discount of 20% off the internet plan list price for 6 months (requires team lead approval).
+1. Offer a retention discount of 20% off the internet plan list price for 6 months, which requires team lead approval.
    - Source `retention_policy-0013`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > High tier, Month-to-month customer, page: 2)
-2. If the customer agrees to switch to a one-year contract, offer a one-time $50 bill credit.
+2. Provide a one-time $50 bill credit if the customer agrees to switch to a one-year contract.
    - Source `retention_policy-0013`: retention_policy.pdf (section: Appendix A. Playbook by tier and contract > High tier, Month-to-month customer, page: 2)
 
 ## 3. Withheld by validation (unsupported, omitted from section 2)

@@ -19,7 +19,7 @@ CHUNKS: list[dict[str, Any]] = [
     {
         "chunk_id": CHUNK_ID,
         "text": "Retention offers: the maximum retention discount is 25% for up to 6 months.",
-        "source": "fixture_policy.md",
+        "source": "retention_policy.pdf",
         "score": 0.7,
         "location": {},
     },

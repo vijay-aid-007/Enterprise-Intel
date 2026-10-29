@@ -79,7 +79,7 @@ def validate_gold(questions: list[dict[str, Any]], chunks: dict[str, dict[str, A
         if kind == "gap" and not terms:
             problems.append(f"{qid}: gap question needs absent_terms")
         if kind == "answerable" and terms:
-            problems.append(f"{qid}: answerable questions must not list absent_terms")
+            problems.append(f"{qid}: answerable question must not list absent_terms")
         problems += [
             f"{qid}: term appears in the documents, so this is not a gap: {t!r}"
             for t in terms if normalize(t) in corpus

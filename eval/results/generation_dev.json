@@ -1,0 +1,215 @@
+{
+  "n_questions": 14,
+  "table": {
+    "answerable": {
+      "n": 8,
+      "correct": 5,
+      "answered_incomplete": 2,
+      "refused": 1
+    },
+    "out_of_scope": {
+      "n": 4,
+      "refused": 4
+    },
+    "gap": {
+      "n": 2,
+      "refused": 2
+    }
+  },
+  "rejection": {
+    "rejected": 0,
+    "reached_llm": 10,
+    "rate": 0.0
+  },
+  "rows": [
+    {
+      "id": "g01",
+      "type": "answerable",
+      "question": "What is the absolute cap on any retention discount?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "The absolute cap on any retention discount is 30 percent.",
+      "citations": [
+        "retention_policy-0002",
+        "retention_policy-0038"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g02",
+      "type": "answerable",
+      "question": "What is the maximum retention discount for a Critical tier customer on a month-to-month contract, and who has to approve it?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "The maximum retention discount is 30% of the internet plan list price for 6\u202fmonths, and it must be approved by the retention manager.",
+      "citations": [
+        "retention_policy-0016"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g03",
+      "type": "answerable",
+      "question": "What combined discount ceiling applies to a Medium tier customer on a one year contract?",
+      "status": "answered",
+      "outcome": "answered_incomplete",
+      "answer": "The combined discount ceiling is 15%.",
+      "citations": [
+        "facts_sheet-0071"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g04",
+      "type": "answerable",
+      "question": "What is the combined discount ceiling for a Low tier customer on a month-to-month contract?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "The combined discount ceiling is 0%.",
+      "citations": [
+        "facts_sheet-0067"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g05",
+      "type": "answerable",
+      "question": "How much does the Fiber optic plan cost per month and how fast is it?",
+      "status": "refused_model",
+      "outcome": "refused",
+      "answer": "The provided documents give the monthly cost of Fiber optic plans but do not specify their speed.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g06",
+      "type": "answerable",
+      "question": "How many days after the invoice date is payment due?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "Payment is due 15 days after the invoice date.",
+      "citations": [
+        "service_terms-0001"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g07",
+      "type": "out_of_scope",
+      "question": "What is the capital of France?",
+      "status": "refused_insufficient_evidence",
+      "outcome": "refused",
+      "answer": "I could not find enough evidence in the documents to answer this question.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "dense 0.122 < 0.3"
+    },
+    {
+      "id": "g08",
+      "type": "out_of_scope",
+      "question": "Can you give me a recipe for margherita pizza?",
+      "status": "refused_insufficient_evidence",
+      "outcome": "refused",
+      "answer": "I could not find enough evidence in the documents to answer this question.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "dense 0.127 < 0.3"
+    },
+    {
+      "id": "g09",
+      "type": "gap",
+      "question": "What is the maximum retention discount for Platinum tier customers?",
+      "status": "refused_model",
+      "outcome": "refused",
+      "answer": "The provided chunks do not contain information about the maximum retention discount for Platinum tier customers.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g10",
+      "type": "gap",
+      "question": "What is the early termination fee for a three year contract?",
+      "status": "refused_model",
+      "outcome": "refused",
+      "answer": "The early termination fee for a three year contract is not provided in the available documents.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g29",
+      "type": "answerable",
+      "question": "How much written notice do I have to give to cancel?",
+      "status": "answered",
+      "outcome": "correct",
+      "answer": "You must give 30 days written notice to cancel.",
+      "citations": [
+        "service_terms-0002",
+        "service_terms-0102"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g30",
+      "type": "answerable",
+      "question": "How long do I have to send back my rented router after I cancel?",
+      "status": "answered",
+      "outcome": "answered_incomplete",
+      "answer": "You must return the rented router within 14 days of cancelling your service.",
+      "citations": [
+        "service_terms-0089",
+        "service_terms-0004"
+      ],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "ok"
+    },
+    {
+      "id": "g31",
+      "type": "out_of_scope",
+      "question": "Which smartphone should I buy for my teenager?",
+      "status": "refused_insufficient_evidence",
+      "outcome": "refused",
+      "answer": "I could not find enough evidence in the documents to answer this question.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "dense 0.268 < 0.3"
+    },
+    {
+      "id": "g32",
+      "type": "out_of_scope",
+      "question": "How do I set up a Wi-Fi mesh network at home?",
+      "status": "refused_insufficient_evidence",
+      "outcome": "refused",
+      "answer": "I could not find enough evidence in the documents to answer this question.",
+      "citations": [],
+      "issues": [],
+      "draft_answer": "",
+      "evidence_reason": "dense 0.290 < 0.3"
+    }
+  ],
+  "cache": {
+    "hits": 10,
+    "misses": 0
+  }
+}

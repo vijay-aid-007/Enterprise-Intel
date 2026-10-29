@@ -64,7 +64,7 @@ CHROMA_COLLECTION = "chunks"
 RETRIEVAL_MODE = "hybrid"          # "dense" | "bm25" | "hybrid"
 RRF_K = 60                         # standard RRF constant
 CANDIDATES_PER_BACKEND = 20        # each backend contributes its top-N to fusion
-DENSE_MIN_SIM = 0.25               # UNTUNED placeholder: tune on dev gold questions (Step 9)
+DENSE_MIN_SIM = 0.30  # frozen from the dev sweep: lowest value above the best dev out-of-scope score (0.290) that refuses no answerable dev question
 BM25_MIN_SCORE = 0.0               # disabled until tuned
 
 
@@ -122,4 +122,6 @@ GOLD_JSON: Path = EVAL_DIR / "gold_questions.json"
 EVAL_KS: tuple[int, ...] = (1, 3, 5)
 EVAL_MAX_RANK: int = 10
 EVAL_SWEEP: tuple[float, ...] = (0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70)  
-DENSE_MIN_SIM = 0.30
+
+EVAL_LLM_CACHE: Path = EVAL_DIR / "cache" / "llm_cache.jsonl"
+EVAL_LLM_MIN_INTERVAL_S: float = 20.0  # spacing between real model calls; Groq on_demand allows about 8000 tokens per minute
