@@ -4,7 +4,7 @@ All customer ids below are in the **test** split, so their scores are not in-sam
 
 ## Before you start
 
-1. Terminal 1: `python -m src.api.main`. Terminal 2: `python -m streamlit run app/streamlit_app.py`. The sidebar should say "API ready".
+1. Terminal 1: `python -m src.api.main`. Terminal 2: `python -m streamlit run app/streamlit_app.py`. The header should say "API operational".
 2. **Run every step below once beforehand** and read the output. If an answer looks wrong, skip that step. These steps are checked against what the evaluation showed, not against your screen.
 3. Groq's free tier allows a few thousand tokens per minute, and each model call uses about 4,000. Wait about 20 seconds between clicks that call the model, and don't double-click.
 
@@ -14,19 +14,19 @@ Real: the Telco CSV and the churn model. Synthetic: every policy, price and term
 
 ## 2. Customer report: the normal case
 
-Report tab, `1452-KIOVK` (month-to-month, Fiber optic, High tier), then **Full report**.
+Report tab, `1452-KIOVK` (month-to-month, Fiber optic, High tier), then **Generate report**.
 - In the earlier evaluation: score 0.6239, High tier, a 20% retention discount for 6 months needing team-lead approval, and a $50 credit for moving to a one-year contract.
 - Point at the drivers table (SHAP), the "Sources" line under each action, the "Withheld by validation" expander, and the evidence table.
 - Say: the ML section is rendered by code. The model only drafts the recommendations.
 
 ## 3. Customer report: a refusal by design
 
-`3930-ZGWVE` (High tier, month-to-month, **no internet service**), then **Full report**. Expect status `no_internet_service` and no actions.
+`3930-ZGWVE` (High tier, month-to-month, **no internet service**), then **Generate report**. Expect status `no_internet_service` and no actions.
 - Say: the policy applies retention discounts to the internet plan charge only (`retention_policy-0002`), so the code does not ask the model. The note cites that chunk.
 
 ## 4. Another tier
 
-`6322-HRPFA` (Low tier, month-to-month, DSL), then **Full report**. Expect Low-tier playbook content, not a discount. Check each action against its source chunk before presenting it.
+`6322-HRPFA` (Low tier, month-to-month, DSL), then **Generate report**. Expect Low-tier playbook content, not a discount. Check each action against its source chunk before presenting it.
 
 ## 5. Ask the documents
 

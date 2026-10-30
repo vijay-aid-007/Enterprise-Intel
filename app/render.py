@@ -18,7 +18,7 @@ NO_RECOMMENDATION_TEXT: dict[str, str] = {
 
 def plain(text: Any) -> str:
     """Escape $ so Streamlit does not render prices such as $50 and $30 as LaTeX math."""
-    return str(text).replace("$", "\\$")
+    return str(text).replace("$", "\\$").replace("[", "\\[")
 
 
 def fmt_location(location: dict[str, Any] | None) -> str:

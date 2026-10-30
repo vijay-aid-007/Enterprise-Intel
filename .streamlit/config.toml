@@ -1,0 +1,27 @@
+[theme]
+font = "sans serif"
+showWidgetBorder = true
+
+# Streamlit follows the OS light/dark setting by default and offers a manual
+# switch in its Settings menu. [theme.light] and [theme.dark] need Streamlit 1.46+.
+[theme.light]
+primaryColor = "#2B4BC7"
+backgroundColor = "#F6F7F9"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#111827"
+borderColor = "#E3E6EB"
+
+[theme.dark]
+primaryColor = "#4F6FEA"
+backgroundColor = "#0E1218"
+secondaryBackgroundColor = "#161B22"
+textColor = "#E6E9EF"
+borderColor = "#2A313C"
+
+[browser]
+gatherUsageStats = false
+
+[client]
+# "viewer" keeps the Settings menu (where the theme switch lives) and drops Deploy.
+# If the menu is missing in your version, change this to "auto".
+toolbarMode = "viewer"
