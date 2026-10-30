@@ -137,3 +137,27 @@ def test_exact_case_check(tmp_path) -> None:
     assert exact_case_exists(tmp_path, "docs/demo.md")
     assert not exact_case_exists(tmp_path, "docs/DEMO.md")
     assert not exact_case_exists(tmp_path, "docs/missing.md")
+
+
+def declared_dependencies() -> dict[str, list[str]]:
+    """Main dependency list and every dependency group, straight from pyproject.toml."""
+    import tomllib
+
+    data = tomllib.loads(read("pyproject.toml"))
+    return {"main": data["project"]["dependencies"], **data.get("dependency-groups", {})}
+
+
+def package_names(specs: list[str]) -> set[str]:
+    return {re.split(r"[<>=!~\[ ;]", spec, maxsplit=1)[0].strip().lower().replace("_", "-") for spec in specs}
+
+
+def test_docs_name_only_existing_dependency_groups() -> None:
+    existing = set(declared_dependencies()) - {"main"}
+    used = {group for rel in DOCS for group in re.findall(r"--group (\w+)", read(rel))}
+    assert used <= existing, f"docs mention dependency groups that pyproject.toml does not define: {sorted(used - existing)}"
+
+
+def test_test_dependencies_install_by_default() -> None:
+    spec = declared_dependencies()
+    default = package_names(spec["main"]) | package_names(spec.get("dev", []))
+    assert {"pytest", "reportlab"} <= default, "pytest and reportlab must be in the main or dev dependencies"
