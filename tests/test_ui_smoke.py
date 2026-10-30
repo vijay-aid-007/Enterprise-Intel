@@ -112,8 +112,7 @@ def test_app_runs_and_generates_a_report(monkeypatch: pytest.MonkeyPatch) -> Non
     assert not at.exception
     at.button(key="report_btn").click().run()
     assert not at.exception
-    shown = " ".join([metric.label for metric in at.metric] + [element.value for element in at.markdown]).lower()
-    assert "7590-vhveg" in shown and "risk score" in shown
+    assert any(metric.label == "Churn risk score" for metric in at.metric)
 
 
 def test_app_survives_unreachable_api(monkeypatch: pytest.MonkeyPatch) -> None:

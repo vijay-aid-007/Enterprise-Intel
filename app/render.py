@@ -95,7 +95,7 @@ def render_drivers(drivers: list[dict[str, Any]]) -> None:
 def render_prediction(pred: dict[str, Any]) -> None:
     st.subheader(f"Prediction for {pred['customer_id']}")
     left, right = st.columns(2)
-    left.metric("Churn probability", f"{pred['prob']:.4f}")
+    left.metric("Churn risk score", f"{pred['prob']:.4f}")
     right.metric("Predicted label", pred["label"])
     render_drivers(pred["top_drivers"])
 
@@ -105,7 +105,7 @@ def render_report(report: dict[str, Any]) -> None:
     pred, profile = report["prediction"], report["profile"]
     st.subheader(f"Report for {report['customer_id']}")
     c1, c2, c3 = st.columns(3)
-    c1.metric("Churn probability", f"{pred['prob']:.4f}")
+    c1.metric("Churn risk score", f"{pred['prob']:.4f}")
     c2.metric("Risk tier", report["tier"])
     c3.metric("Report status", report["status"])
     st.caption(
