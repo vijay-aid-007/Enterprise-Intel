@@ -103,7 +103,7 @@ python -m src.docs.chunker             # writes data/processed/chunks.jsonl
 python -m src.rag.index
 ```
 
-Rebuilding changes the model and chunk ids, which makes `eval/results`, the gold labels and the LLM cache stale. Regenerating the synthetic documents (`uv sync --group synth`, then `python -m scripts.make_synthetic_docs`) has the same effect.
+Rebuilding changes the model and chunk ids, which makes `eval/results`, the gold labels and the LLM cache stale. Regenerating the synthetic documents (`python -m scripts.make_synthetic_docs`, which needs reportlab; `uv sync` installs it with the dev group) has the same effect.
 
 ## Evaluation
 
@@ -129,6 +129,7 @@ python -m scripts.make_results_md --readme README.md
 - **The validators check ids, digits and four document names, not meaning.** Numbers written as words are not checked, and answers can drop qualifiers such as "before add-ons and taxes". On the evaluation questions the validators rejected nothing. Their behaviour is shown by unit tests only.
 - **The churn score is not a probability.** Class weights inflate it (the calibration table shows over-prediction in every bin). The tier boundaries come from the synthetic policy and are applied to this score, which is an assumption.
 - **Model choice is not evidence.** The CV difference between the compared models is within fold-to-fold noise.
+- **Recommendations are not driven by the model's drivers.** The recommendation prompt lists the features that raise churn risk, but recommendations follow the customer's tier and contract, and none read during development mentions a driver. The SHAP drivers appear in a table beside them, rendered by code.
 - **Customers.** `/predict` and reports work only for ids in the Telco CSV. Customers in the training split get in-sample scores, so use test-split ids for demos.
 - **Support tickets** are indexed but excluded from answers, and they have no customer id, so they cannot be joined to customers.
 - **One LLM provider.** Groq on the on-demand tier is limited to a few thousand tokens per minute, so quick repeat clicks can wait on retries. The first request after startup loads the embedding model.

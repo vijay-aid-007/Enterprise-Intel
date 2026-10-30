@@ -46,6 +46,7 @@ cffi==2.1.1 ; platform_python_implementation != 'PyPy'
 charset-normalizer==3.5.2
     # via
     #   pdfminer-six
+    #   reportlab
     #   requests
 chromadb==1.5.9
     # via enterprise-intel
@@ -302,6 +303,7 @@ pdfplumber==0.11.10
 pillow==13.0.0
     # via
     #   pdfplumber
+    #   reportlab
     #   streamlit
 pluggy==1.7.0
     # via pytest
@@ -373,6 +375,7 @@ referencing==0.37.0
     #   jsonschema-specifications
 regex==2026.9.29
     # via transformers
+reportlab==5.1.0
 requests==2.34.2
     # via
     #   kubernetes

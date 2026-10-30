@@ -504,8 +504,6 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "pytest" },
-]
-synth = [
     { name = "reportlab" },
 ]
 
@@ -531,8 +529,10 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=9.1.1" }]
-synth = [{ name = "reportlab", specifier = ">=5.1.0" }]
+dev = [
+    { name = "pytest", specifier = ">=9.1.1" },
+    { name = "reportlab", specifier = ">=5.1.0" },
+]
 
 [[package]]
 name = "fastapi"
