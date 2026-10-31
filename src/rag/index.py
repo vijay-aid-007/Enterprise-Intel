@@ -51,7 +51,7 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def get_client():
+def get_client() -> ClientAPI:
     """Persistent Chroma client rooted at config.CHROMA_DIR (telemetry off)."""
     config.CHROMA_DIR.mkdir(parents=True, exist_ok=True)
     return chromadb.PersistentClient(
