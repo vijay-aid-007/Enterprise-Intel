@@ -49,12 +49,3 @@ Point at the trace table: the model chooses tools, and code runs them with valid
 ## 7. Failure mode
 
 Stop the API (Ctrl+C in terminal 1) and reload the page. Expect a red message naming `python -m src.api.main`, not a traceback.
-
-## Questions you should expect
-
-- **Why XGBoost?** It won on the declared criterion, mean CV PR-AUC on the train split. The difference from logistic regression is within fold-to-fold noise, so it is a rule-following choice, not a win.
-- **Is the score a probability?** No. Class weights inflate it, and the calibration table shows over-prediction in every bin. Tiers are risk bands, and their boundaries come from the synthetic policy.
-- **How do you stop the model inventing numbers?** Cited ids must exist, every number must appear in a cited chunk, and an answer must not name a document that was not cited. A failing draft is withheld, and the API has no field to return it. These checks do not test meaning, and qualifiers can be dropped.
-- **What about questions the documents cannot answer?** Two layers: a similarity threshold before the model, then the model's `can_answer`. In-scope-looking questions rely on the second.
-- **Why hybrid when BM25 did better on held-out?** The mode was fixed before the held-out run, as the assignment asks. Choosing after seeing held-out would remove the clean test, so it is reported as a finding.
-- **Prompt injection?** Chunk text is escaped and labelled untrusted, and the code validators sit behind the model. It was tested with one poisoned chunk on one model, and the model did not comply. That is one case, not a guarantee.
