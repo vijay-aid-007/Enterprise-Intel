@@ -138,3 +138,14 @@ def use_utf8_stdout() -> None:
     stream = sys.stdout
     if isinstance(stream, io.TextIOWrapper):
         stream.reconfigure(encoding="utf-8")
+
+# ---------------------------------------------------------------- XGBoost tuning (Step 11a)
+TUNING_JSON: Path = MODELS_DIR / "tuning.json"
+TUNED_MODEL_PATH: Path = MODELS_DIR / "churn_model_tuned.joblib"
+TUNE_N_CONFIGS: int = 40
+TUNE_TOP_K: int = 3
+TUNE_REPEATS_SEARCH: int = 2    # stage 1: 5-fold x 2 repeats
+TUNE_REPEATS_CONFIRM: int = 3   # stage 2: fresh folds, 5-fold x 3 repeats
+TUNE_MIN_GAIN: float = 0.005    # mean PR-AUC gain over the baseline required to adopt
+TUNE_ALPHA: float = 0.05        # one-sided level, divided by TUNE_TOP_K (Bonferroni)
+TUNE_MAX_BRIER_WORSE: float = 0.002
