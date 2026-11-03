@@ -101,7 +101,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         "- No early stopping, because it would score each round on the validation fold.", "",
         "## Stage 1: search", "",
         f"Across the {len(means)} random configurations, mean PR-AUC ranged from {min(means)} to {max(means)} "
-        f"(median {statistics.median(means)}). The baseline scored {baseline['pr_mean']}.", "",
+        f"(median {round(statistics.median(means), 4)}). The baseline scored {baseline['pr_mean']}.", "",
         *_stage1_table(report), "",
         "Parameters (a dash means the baseline left the parameter at the library default):", "",
         *_params_table(report), "", shared_text, "",

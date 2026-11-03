@@ -74,3 +74,11 @@ def test_real_tuning_file_renders() -> None:
     text = tr.render_markdown(report)
     assert "# XGBoost tuning experiment" in text and "**Outcome:" in text
     assert str(report["decision"]["p_value"]) in text and str(report["decision"]["mean_gain"]) in text
+
+
+def test_median_is_rounded_for_display() -> None:
+    import re
+
+    stage1 = [REPORT["stage1"][0], {**REPORT["stage1"][1], "pr_mean": 0.1}, {**REPORT["stage1"][2], "pr_mean": 0.2}]
+    text = tr.render_markdown({**REPORT, "stage1": stage1})
+    assert "(median 0.15)" in text and not re.search(r"\d\.\d{7,}", text)
